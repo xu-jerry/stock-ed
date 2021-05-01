@@ -25,8 +25,9 @@ function App() {
 
 function testServer() {
   console.log("post request");
-  axios.post(`http://localhost:3000/test`, {})
+  axios.post(`http://localhost:9000/test`, {})
     .then(res => {
+      console.log('here')
       console.log(res);
       console.log(res.data);
     });
