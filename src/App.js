@@ -27,6 +27,7 @@ function testServer() {
   console.log("post request");
   axios.post(`/test`, {})
     .then(res => {
+      console.log('here')
       console.log(res);
       console.log(res.data);
     });
