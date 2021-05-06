@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Stock extends Component 
 {
-    constructor() {
+    constructor(props) {
         super(props);
         this.state({
             name: this.props.name,
