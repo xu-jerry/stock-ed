@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p onClick={() => testServer()}>
+        <p onClick={() => requestStockData()}>
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
@@ -23,13 +23,15 @@ function App() {
   );
 }
 
-function testServer() {
+function requestStockData() {
   console.log("post request");
-  axios.post(`/test`, {})
+  axios.get(`/stock`, {
+    params: {
+      symbol: "AAPL"
+    }
+  })
     .then(res => {
-      console.log('here')
-      console.log(res);
-      console.log(res.data);
+      console.log(res.data.price.regularMarketPrice);
     });
 }
 
