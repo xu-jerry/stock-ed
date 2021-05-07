@@ -10,21 +10,22 @@ app.use(express.json());
 
 app.get("/stock", (req, res) => {
     const data =  getStockData(req.query.symbol, function(stockData) {
-        res.send(JSON.stringify(stockData));
+        res.json(stockData);
     });
 });
 
 app.listen(port);
 
 function getStockData(symbol, callback) {
-    yahooFinance.quote({
+   let t = yahooFinance.quote({
         symbol: symbol,
         modules: [ 'price', 'summaryDetail']
     }, (err, quotes) => {
-        // TODO: Deal with errors (symbol not valid, etc)
-        if (err) 
-            console.log(err);
-        callback(quotes);
+        if (err) {
+            callback(null);  
+            return;
+        }
+        callback(quotes); 
     });
 }
 

@@ -31,6 +31,7 @@ async function testingManyStocks() {
   const s5 = await requestStockData("WDC");
   const s6 = await requestStockData("DIS");
   const s7 = await requestStockData("NTDOY");
+  const s8 = await requestStockData("bruh");
 
   console.log(`AAPL: ${s1.price.regularMarketPrice}`);
   console.log(`MMM: ${s2.price.regularMarketPrice}`);
@@ -39,6 +40,7 @@ async function testingManyStocks() {
   console.log(`WDC: ${s5.price.regularMarketPrice}`);
   console.log(`DIS: ${s6.price.regularMarketPrice}`);
   console.log(`NTDOY: ${s7.price.regularMarketPrice}`);
+  console.log(`bruh: ${s8}`);
 }
 
 async function requestStockData(ticker) {
@@ -47,7 +49,7 @@ async function requestStockData(ticker) {
     params: {
       symbol: ticker
     }
-  });
+  }); 
   return stockData.data;
 }
 
