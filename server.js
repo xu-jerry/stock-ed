@@ -17,7 +17,7 @@ app.get("/stock", (req, res) => {
 app.listen(port);
 
 function getStockData(symbol, callback) {
-   let t = yahooFinance.quote({
+    yahooFinance.quote({
         symbol: symbol,
         modules: [ 'price', 'summaryDetail']
     }, (err, quotes) => {
