@@ -3,6 +3,9 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 const yahooFinance = require('yahoo-finance');
+const leaderboardData = {
+    
+}
 
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
