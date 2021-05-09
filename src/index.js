@@ -8,6 +8,7 @@ import Search from './Search';
 import About from './About';
 import Leaderboard from './Leaderboard';
 import Login from './Login';
+import NotFound from './NotFound'
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Switch } from "react-router-dom";  
 
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path = "/stock/:id/" component = {Stock}/>
       <Route path = "/search" component = {Search}/>
       <Route path = "/about" component = {About}/>
+      <Route component={NotFound} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
