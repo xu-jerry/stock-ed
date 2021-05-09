@@ -64,7 +64,7 @@ function Leaderboard(props) {
               Username
               <button className="filter" onClick={() => 
                 filterTable("username", activeFilter === "usernametrue")}>
-                {activeFilter === "usernamefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
+                {activeFilter === "usernametrue" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
             </th>
             <th className={(activeFilter === "accountvaluetrue" || activeFilter === "accountvaluefalse") ? "activeFilter" : ""}>
               Account Value
