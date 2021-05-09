@@ -1,9 +1,9 @@
 .styledTable {
     border-collapse: collapse;
     margin: 2vh auto;
-    font-size: 0.9em;
+    font-size: 80%;
     font-family: sans-serif;
-    min-width: 400px;
+    min-width: 300px;
     width: 80vw;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
@@ -12,6 +12,10 @@
     background-color: #5D80FD;
     color: #ffffff;
     text-align: left;
+}
+
+.styledTable thead tr th {
+    position: relative;
 }
 
 .styledTable th,
@@ -35,4 +39,28 @@
 .styledTable tbody tr.active-row {
     font-weight: bold;
     color: #5D80FD;
+}
+
+.reload {
+    position: absolute;
+    right: 0;
+    min-width: 25px;
+    top: 0;
+    bottom: 0;
+    background-color: #5D80FD;
+    border: none;
+}
+
+.reload:hover {
+    border: thin solid white;
+}
+
+.filter {
+    display: inline-block;
+    background: none;
+    border: none;
+}
+
+.activeFilter {
+    border-bottom: thin solid blue;
 }
