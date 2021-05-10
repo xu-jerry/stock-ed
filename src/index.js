@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Navbar from './navigation/Nav';
 import App from './App';
 import Stock from './Stock';
 import Home from './Home';
@@ -13,6 +14,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 ReactDOM.render(
   <BrowserRouter>
+    <Navbar> </Navbar>
     <Switch>
       <Route exact path = "/" component = {App}/>
       <Route exact path = "/home" component = {Home}/>
