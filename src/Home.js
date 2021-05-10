@@ -3,9 +3,9 @@ function Home(props) {
   const history = useHistory();
 
     return (
-      <body>
+      <div>
         <p>This is the Home page.</p>
-        </body>
+      </div>
     );
   }
   export default Home;

@@ -7,11 +7,11 @@ function Login(props) {
   }
 
     return (
-      <body>
+      <div>
         <p>Welcome! Please log in here: </p>
 
-        <div class="button" onClick={() => handleHomeClick()}><button>Back</button></div>
-      </body>
+        <div className="button" onClick={() => handleHomeClick()}><button>Back</button></div>
+      </div>
     );
   }
   export default Login;

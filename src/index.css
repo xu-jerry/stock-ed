@@ -1,40 +1,48 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
+
+.container {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
   font-family: 'Gugi', sans-serif;
   font-size: 80px;
+  
 }
 
-blue {
+.blue {
   color: #99B8FF;
 }
 
+/* 
 p {
   padding-left: 60px;
-}
+} */
 
 .button {
   display:inline-block;
-  padding:0.35em 1.2em;
+  /* padding:0.35em 1.2em; */
   border:0.1em solid #FFFFFF;
   margin:0 0.3em 0.3em 0;
   border-radius:0.12em;
   box-sizing: border-box;
-  text-decoration:none;
+  text-decoration: none;
   font-family:'Roboto',sans-serif;
-  font-weight:300;
-  font-size: x-large;
+  font-weight: 300;
+  font-size: 1.5vw;
   color:#000000;
   text-align:center;
   transition: all 0.2s;
+  flex: 1 1 0;
+  width: 5vw;
+  height: 5vh;
   /* css from https://fdossena.com/?p=html5cool/buttons/i.frag */
 }
 .button:hover{
@@ -42,11 +50,18 @@ p {
   background-color:#808080;
 }
 
-.center{
+.center {
   /* someone teach me how to center things */
-  margin-left: auto;
-  margin-right: auto;
-  width: 1100px;
+  margin: 0 auto;
+  height: 2vh;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2vh;
+  flex-basis: 70vw;
+  width: 80vw;
+  padding: 0;
 }
 
 code {

@@ -25,24 +25,18 @@ const Navbar = () => {
   }
 
   return (
-    <>
-      <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet"></link>
-      </head>
-      <body>
-        <h1>Stock<blue>Ed</blue></h1>
-        <div class="center">
-        <button class="button" onClick={() => handleHomeClick()}>Home</button>
-        <button class="button" onClick={() => handleLoginClick()}>Login</button>
-        <button class="button" onClick={() => handleLoginClick()}>Signup</button>
-        <button class="button" onClick={() => handleStockClick()}>Stock</button>
-        <button class="button" onClick={() => handleLeaderboardClick()}>Leaderboard</button>
-        <button class="button" onClick={() => handleAboutClick()}>About</button>
-        <button class="button" onClick={() => handleSearchClick()}>Search</button>
+    <div className="container">
+        <h1>Stock<span className="blue">Ed</span></h1>
+        <div className="center">
+          <button className="button" onClick={() => handleHomeClick()}>Home</button>
+          <button className="button" onClick={() => handleLoginClick()}>Login</button>
+          <button className="button" onClick={() => handleLoginClick()}>Signup</button>
+          <button className="button" onClick={() => handleStockClick()}>Stock</button>
+          <button className="button" onClick={() => handleLeaderboardClick()}>Leaderboard</button>
+          <button className="button" onClick={() => handleAboutClick()}>About</button>
+          <button className="button" onClick={() => handleSearchClick()}>Search</button>
         </div>
-      </body>
-    </>
+    </div>
   );
 };
   
