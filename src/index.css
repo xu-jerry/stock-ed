@@ -9,8 +9,8 @@ body {
 
 h1 {
   text-align: center;
-  font-family: 'Gugi', cursive;
-  font-size: 100px;
+  font-family: 'Gugi', sans-serif;
+  font-size: 80px;
 }
 
 blue {
@@ -22,9 +22,31 @@ p {
 }
 
 .button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 60px;
+  display:inline-block;
+  padding:0.35em 1.2em;
+  border:0.1em solid #FFFFFF;
+  margin:0 0.3em 0.3em 0;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  font-size: x-large;
+  color:#000000;
+  text-align:center;
+  transition: all 0.2s;
+  /* css from https://fdossena.com/?p=html5cool/buttons/i.frag */
+}
+.button:hover{
+  color:#ffffff;
+  background-color:#808080;
+}
+
+.center{
+  /* someone teach me how to center things */
+  margin-left: auto;
+  margin-right: auto;
+  width: 1100px;
 }
 
 code {
