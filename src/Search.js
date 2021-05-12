@@ -1,6 +1,7 @@
 import React from "react";
-import Stock from './searchcomponents/stock'
 import axios from "axios";
+import Scroll from "./searchcomponents/Scroll"
+import './Search.css'
 
 const popularStocks = [
   "TSLA", "TTD", "NQ=F", "AMC", "SPCE", "PLTR", "NIO", "RBLX", "GME", "ARKK", "AMZN", 
@@ -22,7 +23,7 @@ function Search() {
     const results = popularStocks.filter(stock =>
       stock.toLowerCase().includes(searchStock.toLocaleLowerCase())
     );
-    if(searchStock.length == 0)
+    if(searchStock.length === 0)
       setSearchResults([]);
     else {
       if(results.length > 5)
@@ -48,8 +49,8 @@ function Search() {
   }
 
   return (
-    <div>
-      <p> This is the search page {popularStocks.length}</p>
+    <div className = "Main-Page">
+      <p> This is the search page </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
           <label>
@@ -66,7 +67,7 @@ function Search() {
       </div>
 
       <div className = "scroll"> 
-            Scrolling to be implemented here
+            <Scroll stocks = {popularStocks} goToPage = {goToPage}> Hey </Scroll>
       </div>
     </div>
   );

@@ -1,29 +1,36 @@
 import React from "react";
 
 function Scroll(props) {
-    const [isBottom, setIsBottom] = React.useState(false);
-    const [stocks, setStocks] = React.useState(props.symbols);
-    const [displaystocks, setDisplayStocks] = React.useState([]);
-    const [page, setPage] = React.useState(0);
 
+    const [isBottom, setIsBottom] = React.useState(false);
+    const [state, setDisplayStocks] = React.useState({
+        page: 0,
+        stocksToDisplay: props.stocks.slice(0, 30),
+    });
+
+    
 
     React.useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
       }, []);
 
-    React.useEffect(() => {
-        if (isBottom) {
-            setDisplayStocks(prevState => ({
-                page: prevState.page + 1,
-                stocksToDisplay: prevState.stocksToDisplay.concat(
-                this.state.stocks.slice(
+      const addItems = () => {
+        setDisplayStocks(prevState => ({
+            page: prevState.page + 1,
+            stocksToDisplay: prevState.stocksToDisplay.concat(
+                props.stocks.slice(
                 (prevState.page + 1) * 30,
                 (prevState.page + 1) * 30 + 30,
+                ),
             ),
-          ),
         }));
-            setIsBottom(false);
+        setIsBottom(false);
+    }
+
+    React.useEffect(() => {
+        if (isBottom) {
+            addItems();
         }
     }, [isBottom]);
 
@@ -44,7 +51,16 @@ function Scroll(props) {
     //display each stock as a button to click? map()
     return(
         <div>
-
+            <p> Popular Stocks </p>
+            <ul style = {{ listStyleType: "none" }}> 
+                {state.stocksToDisplay.map(item => (
+                    <li key = {item} > 
+                        <button onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item + " add a call to the stock and display more info here"} 
+                        </button>
+                    </li>))}
+            </ul>
+            
+          
         </div>
     );
 }
