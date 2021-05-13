@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import Scroll from "./searchcomponents/Scroll"
+import Scroll from "./searchcomponents/scroll"
 import './Search.css'
 
 const popularStocks = [
