@@ -3,17 +3,13 @@ import axios from "axios";
 import Scroll from "./searchcomponents/scroll"
 import './Search.css'
 
-const popularStocks = [
-  "TSLA", "TTD", "NQ=F", "AMC", "SPCE", "PLTR", "NIO", "RBLX", "GME", "ARKK", "AMZN", 
-  "NVAX", "AAPL", "COIN", "PLUG", "^IXIC", "FB", "QQQ", "SQ", "QCOM", "DDD", "MGNI", 
-  "AMD", "ES=F", "TDOC", "MSFT", "U", "PFE", "BNTX", "WYNN", "ITUB", "TME", "BBD", "AAL", 
-  "T", "INTC", "CLF", "PTON", "PBR", "ET", "BAC", "DKNG", "X", "F", "GE", "NOK", "TLRY", 
-  "VTRS", "MSFT", "WFC", "XOM", "RIG", "GGB", "MU", "FCEL", "CSCO", "SNAP", "VEON", "COTY", 
-  "ZNGA", "MRO", "ABEV", "C", "GOLD", "FSR", "CMCSA", "OXY", "IQ", "VIPS", "KGC", "VZ", "CCL", 
-  "SIRI", "KMI", "VIAC", "TWTR", "PINS", "M", "SLB", "JD", "MARA", "EDU", "PDD", "SKLZ", "KO", 
-  "ORCL", "QCOM", "CVE", "RKT", "RIOT", "BA","BABA", "GM", "AUY", "JPM", "CVX", "DVN", "XPEV", 
-  "NCLH", "OPEN", "LUMN", "TSM", "EBAY", "UAL", "AR", "MRK", "HBAN", "BMY", "SWN", "FSLY", "HST"
-];
+const popularStocks = ["AAL", "AAPL", "ABEV", "AMC", "AMD", "AMZN", "AR", "ARKK", "AUY", "BA", "BABA", "BAC", "BBD",
+ "BMY", "BNTX", "C", "CCL", "CLF", "CMCSA", "COIN", "COTY", "CSCO", "CVE", "CVX", "DDD", "DKNG", "DVN", "EBAY", "EDU",
+ "ES=F", "ET", "F", "FB", "FCEL", "FSLY", "FSR", "GE", "GGB", "GM", "GME", "GOLD", "HBAN", "HST", "INTC", "IQ", "ITUB", 
+ "JD", "JPM", "KGC", "KMI", "KO", "LUMN", "M", "MARA", "MGNI", "MRK", "MRO", "MSFT", "MU", "NCLH", "NIO", "NOK", "NQ=F", 
+ "NVAX", "OPEN", "ORCL", "OXY", "PBR", "PDD", "PFE", "PINS", "PLTR", "PLUG", "PTON", "QCOM", "QQQ", "RBLX", "RIG", "RIOT", 
+ "RKT", "SIRI", "SKLZ", "SLB", "SNAP", "SPCE", "SQ", "SWN", "T", "TDOC", "TLRY", "TME", "TSLA", "TSM", "TTD", "TWTR", "U", 
+ "UAL", "VEON", "VIAC", "VIPS", "VTRS", "VZ", "WFC", "WYNN", "X", "XOM", "XPEV", "ZNGA", "^IXIC"];
 
 function Search() {
   const [searchStock, setSearchStock] = React.useState("");

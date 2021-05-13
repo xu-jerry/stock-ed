@@ -1,4 +1,5 @@
 import React from "react";
+import "./scroll.css";
 
 function Scroll(props) {
 
@@ -55,7 +56,7 @@ function Scroll(props) {
             <ul style = {{ listStyleType: "none" }}> 
                 {state.stocksToDisplay.map(item => (
                     <li key = {item} > 
-                        <button onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item + " add a call to the stock and display more info here"} 
+                        <button className="stockButton" onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item}  
                         </button>
                     </li>))}
             </ul>
