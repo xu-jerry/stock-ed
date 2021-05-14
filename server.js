@@ -22,7 +22,7 @@ app.get("/stock", (req, res) => {
     });
 });
 app.get("/historical", (req, res) => {
-    const data =  getHistoricalData(req.query.symbol, function(historicalData) {
+    const data =  getHistoricalData(req.query.symbol, req.query.fromDate, req.query.toDate,function(historicalData) {
         res.json(historicalData);
     });
 });
@@ -49,11 +49,11 @@ function getStockData(symbol, callback) {
         callback(quotes); 
     });
 }
-function getHistoricalData(symbol, callback){
+function getHistoricalData(symbol, fromDate, toDate,callback){
     yahooFinance.historical({
         symbol: symbol,
-        from: '2021-01-01',
-        to: '2021-03-01',    
+        from: fromDate,
+        to: toDate,    
     }, (err, quotes) => {
         if (err) {
             callback(null);  

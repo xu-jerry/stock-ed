@@ -5,7 +5,7 @@ import { Line } from 'react-chartjs-2';
 import styled from 'styled-components'
 
 const GraphContainer = styled.div`
-  width:500px;
+  width:800px;
   height:400px;
   margin-top:50px;
   background-color: white;
@@ -17,37 +17,52 @@ const Title = styled.text`
   padding: 20px;
 `
 
-var d1 = new Date();
+var current = new Date()
+var last = new Date()
+last.setMonth(current.getMonth() - 3)
+if (last.getMonth() == current.getMonth()) last.setDate(0);
+
 
 function Stock(props) {
-  console.log(d1.toLocaleDateString())
+  console.log(current.toLocaleDateString())
+  console.log(last.toLocaleDateString())
   const [stock, setStock] = useState({data: []})
+  const [today, setToday] = useState({data: []})
   const [heights, setHeights] = useState([])
   const [dates, setDates] = useState([])
   const [loaded, isLoaded] = useState(true)
+  const symbol = props.match.params.symbol
   useEffect(() => {
     async function fetchData(){
+      const currData = await axios.get(`/stock`, {
+        params:{
+          symbol:symbol,
+        }
+      })
       const stockData = await axios.get(`/historical`, {
       params: {
-        symbol: "AAPL"
+        symbol: symbol,
+        fromDate: last.toISOString().substring(0,10),
+        toDate: current.toISOString().substring(0,10)
       }
       });
+      setToday({data: [currData.data]})
       setStock(stockData)
       isLoaded(false)
     }
     fetchData()
-    setHeights(stock.data.map(data => data.close).reverse())
-    setDates(stock.data.map(data => data.date.substring(0,10)).reverse())
+    setHeights(stock.data.map(data => data.close).reverse().concat(today.data.map(data => data.price.regularMarketPrice)))
+    setDates(stock.data.map(data => data.date.substring(0,10)).reverse().concat(today.data.map(data => "Now")))
   },[]); 
-   // setHeights(stock.data.map(data => data.close).reverse())
-  //setDates(stock.data.map(data => data.date.substring(0,10)).reverse())
 
+  console.log(heights)
+  console.log(dates)
   const data = {
-    labels: stock.data.map(data => data.date.substring(0,10)).reverse(),
+    labels: stock.data.map(data => data.date.substring(0,10)).reverse().concat(today.data.map(data => "Now")),
     datasets: [
       {
         label: 'Stock Price',
-        data:  stock.data.map(data => data.close).reverse(),
+        data:  stock.data.map(data => data.close).reverse().concat(today.data.map(data => data.price.regularMarketPrice.toFixed(2))),
         fill: false,
         pointRadius: 1,
         backgroundColor: 'rgb(32, 184, 6)',
@@ -68,6 +83,7 @@ function Stock(props) {
     scales:{
       x:{
         grid:{
+          borderColor: 'rgb(0,0,0)',
           drawTicks: false,
           display: false,
         },  
@@ -82,20 +98,24 @@ function Stock(props) {
         grid:{
           borderColor: 'rgb(0,0,0)',
           drawTicks: false,
+          display: false,
           color: 'rgb(0,0,0)'
         }
       }
     }
   };
-
+  
+  function currentPrice() {
+    return today.data.length == 0 ? 0 : Number.parseFloat(today.data.map(data => data.price.regularMarketPrice)[0]).toFixed(2)
+  }
   console.log(stock)
-  console.log(heights)
+  console.log(today)
   return (
       <GraphContainer>
-        <Title>Apple</Title>
+        <Title>{symbol.toUpperCase()}</Title>
+        <Title>${currentPrice()}</Title>
          <Line data={data} options={options} />
       </GraphContainer>
     );
   }
-
   export default Stock;

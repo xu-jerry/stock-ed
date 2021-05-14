@@ -21,7 +21,7 @@ ReactDOM.render(
       <Route exact path = "/home" component = {Home}/>
       <Route path = "/login" component = {Login}/>
       <Route path = "/leaderboard" component = {Leaderboard}/>
-      <Route path = "/stock/:id/" component = {Stock}/>
+      <Route path = "/stock/:symbol/" component = {Stock}/>
       <Route path = "/search" component = {Search}/>
       <Route path = "/about" component = {About}/>
       <Route component={NotFound} />
