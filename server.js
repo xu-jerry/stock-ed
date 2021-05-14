@@ -21,7 +21,11 @@ app.get("/stock", (req, res) => {
         res.json(stockData);
     });
 });
-
+app.get("/historical", (req, res) => {
+    const data =  getHistoricalData(req.query.symbol, function(historicalData) {
+        res.json(historicalData);
+    });
+});
 app.get("/leaderboardData", (req, res) => {
     /* Normally you would get the data from the database, 
      * but since there is not one here yet, we just test 
@@ -37,6 +41,19 @@ function getStockData(symbol, callback) {
     yahooFinance.quote({
         symbol: symbol,
         modules: [ 'price', 'summaryDetail']
+    }, (err, quotes) => {
+        if (err) {
+            callback(null);  
+            return;
+        }
+        callback(quotes); 
+    });
+}
+function getHistoricalData(symbol, callback){
+    yahooFinance.historical({
+        symbol: symbol,
+        from: '2021-01-01',
+        to: '2021-03-01',    
     }, (err, quotes) => {
         if (err) {
             callback(null);  
