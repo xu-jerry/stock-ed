@@ -4,8 +4,8 @@ import { Line } from 'react-chartjs-2';
 import styled from 'styled-components'
 
 const BigContainer = styled.div`
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-left: 8vw;
+  margin-right:8vw;
   display: flex;
   flex-direction: column;
 `
@@ -31,6 +31,10 @@ const IntervalSelect = styled.button`
   font-size: 25px;
   padding: 10px;
   font-color: grey;
+`
+const IntervalBox = styled.div`
+  display: flexbox;
+  flex-direction: row;
 `
 var current = new Date()
 function Stock(props) {
@@ -157,13 +161,13 @@ function Stock(props) {
     <BigContainer>
       <Title>{longName()}</Title>
       <TitleTwo>${currentPrice()}</TitleTwo>
-      <IntervalSelect onClick={()=>intervalClicked(1)}>1M</IntervalSelect>
-      <IntervalSelect onClick={()=>intervalClicked(3)}>3M</IntervalSelect>
-      <IntervalSelect onClick={()=>intervalClicked(6)}>6M</IntervalSelect>
-      <IntervalSelect onClick={()=>intervalClicked(12)}>1Y</IntervalSelect>
-      <IntervalSelect onClick={()=>intervalClicked(60)}>5Y</IntervalSelect>
-
-
+      <IntervalBox>
+        <IntervalSelect onClick={()=>intervalClicked(1)}>1M</IntervalSelect>
+        <IntervalSelect onClick={()=>intervalClicked(3)}>3M</IntervalSelect>
+        <IntervalSelect onClick={()=>intervalClicked(6)}>6M</IntervalSelect>
+        <IntervalSelect onClick={()=>intervalClicked(12)}>1Y</IntervalSelect>
+        <IntervalSelect onClick={()=>intervalClicked(60)}>5Y</IntervalSelect>
+      </IntervalBox>
       <GraphContainer>
         <Line data={data} options={options} />
       </GraphContainer>
