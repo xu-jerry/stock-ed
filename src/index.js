@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './navigation/Nav';
+import Navbar from './navigation/nav';
 import App from './App';
 import Stock from './Stock';
 import Home from './Home';
