@@ -77,8 +77,21 @@ function Stock(props) {
         display:false
       },
       tooltip:{
-        intersect: false
+        intersect: false,
+        displayColors:false,
+        callbacks: {
+          label: function(context) {
+              var price = context.element.parsed.y
+              var label = "$"+price.toFixed(2);
+              return label;
+          },
+          title: function(context){
+            var date = context[0].label
+            return isoToString(date)
+          }
+        }
       }
+      
     },
     scales:{
       x:{
@@ -108,14 +121,22 @@ function Stock(props) {
   function currentPrice() {
     return today.data.length == 0 ? 0 : Number.parseFloat(today.data.map(data => data.price.regularMarketPrice)[0]).toFixed(2)
   }
+  function isoToString(date){
+    const d = new Date(date)
+    const parsed = d.toDateString().substring(4)
+    const comma = parsed.substring(0,6) + ", " + parsed.substring(6)
+    return comma
+  }
   console.log(stock)
   console.log(today)
   return (
-      <GraphContainer>
-        <Title>{symbol.toUpperCase()}</Title>
+    <>
+    <Title>{symbol.toUpperCase()}</Title>
         <Title>${currentPrice()}</Title>
+        <GraphContainer>
          <Line data={data} options={options} />
-      </GraphContainer>
+          </GraphContainer>
+      </>
     );
   }
   export default Stock;
