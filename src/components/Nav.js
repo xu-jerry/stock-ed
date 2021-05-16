@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <div className="header">
-        <h1 class="title">Stock<span className="blue">Ed</span></h1>
+        <h1 className="title">Stock<span className="blue">Ed</span></h1>
         <div className="center">
           <button className="button" onClick={() => handleHomeClick()}>Home</button>
           <button className="button" onClick={() => handleLoginClick()}>Login/Signup</button>
