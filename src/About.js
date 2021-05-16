@@ -1,6 +1,8 @@
 function About(props) {
     return (
-      <p>This is the About page.</p>
+      <div className="page">
+        <p>This is the About page.</p>
+      </div>
     );
   }
   export default About;
