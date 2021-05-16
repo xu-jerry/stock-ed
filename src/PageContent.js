@@ -9,7 +9,7 @@ import NotFound from './NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import {Route, Switch } from "react-router-dom";  
 
-function PageContent() {
+function PageContent(props) {
     const [loggedIn, setLoginStatus] = React.useState(false); 
 
     function checkLogin() {
@@ -24,7 +24,7 @@ function PageContent() {
         <Switch>
             <Route exact path = "/" component = {Home}/>
             <Route exact path = "/home" component = {Home}/>
-            <Route handleLogin = {setLoginStatus} path = "/login" component = {Login}/>
+            <Route path = "/login" render={props => <Login origin = {props} setLoginStatus = {() => setLoginStatus(true)}/>}/>
             <PrivateRoute loggedIn = {loggedIn} path = "/leaderboard" component = {Leaderboard}/>
             <PrivateRoute loggedIn = {loggedIn} path = "/stock/:id/" component = {Stock}/>
             <PrivateRoute loggedIn = {loggedIn} path = "/search" component = {Search}/>

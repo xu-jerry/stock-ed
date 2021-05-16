@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
 
-function Login(props) {
+const Login = (props) =>{
   const history = useHistory();
   const [message, setmessage] = useState(["Please log in here: ", "Don't have an account? Make one "]);
   const [signup, setsignup] = useState(false);
@@ -22,10 +22,22 @@ function Login(props) {
       }).then(res => {
         setUsername("");
         setPassword("");
-      }).catch(err => {
-        // TODO: handle what happens when the user fails to login
-        console.log("Log in failed");
-      })
+        if (res.status === 200) {
+          let pageOrigin;
+          console.log(props);
+          if (typeof props.origin.location.state === undefined) {
+            pageOrigin = props.origin.location.state.from.pathname;
+          } else {
+            pageOrigin = "/home";
+          }
+          console.log(pageOrigin);
+          props.setLoginStatus();
+          history.push(pageOrigin);
+        } else {
+          // TODO: Handle login fail
+          console.log("Failed to login");
+        }
+      });
   }
 
   const handleSignupClick = () => {
