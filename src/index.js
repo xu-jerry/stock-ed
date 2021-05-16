@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './navigation/Nav';
-import App from './App';
+import Navbar from './components/Nav';
 import Stock from './Stock';
 import Home from './Home';
-import Search from './Search';
+import Search from './Search/Search';
 import About from './About';
-import Leaderboard from './Leaderboard';
+import Leaderboard from './Leaderboard/Leaderboard';
 import Login from './Login';
 import NotFound from './NotFound'
 import reportWebVitals from './reportWebVitals';

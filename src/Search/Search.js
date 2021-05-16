@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import Scroll from "./searchcomponents/scroll"
+import Scroll from "./scroll"
 import './Search.css'
 
 const popularStocks = ["AAL", "AAPL", "ABEV", "AMC", "AMD", "AMZN", "AR", "ARKK", "AUY", "BA", "BABA", "BAC", "BBD",
