@@ -32,9 +32,9 @@ app.get("/leaderboardData", (req, res) => {
 
 app.post("/loginauth", (req, res) => {
     if (req.body.username === "abc" && req.body.password === "123") {
-        res.status(200).json("vasuidsaida");
+        res.status(200).send("testing");
     } else {
-        res.status(401);
+        res.status(401).send("error");
     }
 });
 

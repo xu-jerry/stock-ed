@@ -12,14 +12,6 @@ import {Route, Switch } from "react-router-dom";
 function PageContent(props) {
     const [loggedIn, setLoginStatus] = React.useState(false); 
 
-    function checkLogin() {
-        return false; // Just for now always say they aren't logged-in
-    }
-
-    React.useEffect(() => {
-        checkLogin();
-    }, []);
-
     return (
         <Switch>
             <Route exact path = "/" component = {Home}/>

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
+import jscookie from "js-cookie";
+import React from 'react';
 
 const Login = (props) =>{
   const history = useHistory();
@@ -14,6 +16,33 @@ const Login = (props) =>{
     history.push("/Home");
   }
 
+  async function checkLogin() {
+    // In the future, this will send a post request to verify the cookie is valid
+    if (jscookie.get("user") !== undefined) {
+        return true;
+    }
+    return false; // Just for now always say they aren't logged-in
+  }
+
+  function loginUser() {
+    let pageOrigin;
+    // Redirect to page of origin if possible
+    if (typeof props.origin.location.state === undefined) {
+      pageOrigin = props.origin.location.state.from.pathname;
+    } else {
+      pageOrigin = "/home";
+    }
+    console.log(pageOrigin);
+    props.setLoginStatus();
+    history.push(pageOrigin);
+  }
+
+  React.useEffect(() => {
+    checkLogin().then((status) => {
+        loginUser();
+    });
+  }, []);
+
   const handleSubmitClick = () => {
     console.log(username, password);
     axios.post("/loginauth", {
@@ -22,22 +51,15 @@ const Login = (props) =>{
       }).then(res => {
         setUsername("");
         setPassword("");
-        if (res.status === 200) {
-          let pageOrigin;
-          console.log(props);
-          if (typeof props.origin.location.state === undefined) {
-            pageOrigin = props.origin.location.state.from.pathname;
-          } else {
-            pageOrigin = "/home";
-          }
-          console.log(pageOrigin);
-          props.setLoginStatus();
-          history.push(pageOrigin);
-        } else {
-          // TODO: Handle login fail
-          console.log("Failed to login");
-        }
-      });
+        // Set cookie, will add expiration in the future
+        jscookie.set('user', res.data);
+        loginUser();
+      }).catch(err => {
+        setUsername("");
+        setPassword("");
+        // TODO: Handle login fail
+        console.log("Failed to login");
+      })
   }
 
   const handleSignupClick = () => {
