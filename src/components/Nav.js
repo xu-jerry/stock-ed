@@ -7,10 +7,7 @@ const Navbar = () => {
   const handleHomeClick = () => {
     history.push("/Home");
   }
-
-  const handleLoginClick = () => {
-    history.push("/Login");
-  }
+  
   const handleStockClick = () => {
     history.push("/Stock/:id");
   }
@@ -29,7 +26,6 @@ const Navbar = () => {
         <h1 className="title">Stock<span className="blue">Ed</span></h1>
         <div className="center">
           <button className="button" onClick={() => handleHomeClick()}>Home</button>
-          <button className="button" onClick={() => handleLoginClick()}>Login/Signup</button>
           <button className="button" onClick={() => handleStockClick()}>Stock</button>
           <button className="button" onClick={() => handleLeaderboardClick()}>Leaderboard</button>
           <button className="button" onClick={() => handleAboutClick()}>About</button>
