@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './navigation/nav';
+import Navbar from './navigation/Nav';
 import App from './App';
 import Stock from './Stock';
 import Home from './Home';
@@ -17,7 +17,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Navbar> </Navbar>
     <Switch>
-      <Route exact path = "/" component = {App}/>
+      <Route exact path = "/" component = {Home}/>
       <Route exact path = "/home" component = {Home}/>
       <Route path = "/login" component = {Login}/>
       <Route path = "/leaderboard" component = {Leaderboard}/>
