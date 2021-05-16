@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './navigation/nav';
-import App from './App';
+import Navbar from './components/Nav';
 import Stock from './Stock';
 import Home from './Home';
-import Search from './Search';
+import Search from './Search/Search';
 import About from './About';
-import Leaderboard from './Leaderboard';
+import Leaderboard from './Leaderboard/Leaderboard';
 import Login from './Login';
 import NotFound from './NotFound'
 import reportWebVitals from './reportWebVitals';
@@ -17,7 +16,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Navbar> </Navbar>
     <Switch>
-      <Route exact path = "/" component = {App}/>
+      <Route exact path = "/" component = {Home}/>
       <Route exact path = "/home" component = {Home}/>
       <Route path = "/login" component = {Login}/>
       <Route path = "/leaderboard" component = {Leaderboard}/>
