@@ -39,7 +39,9 @@ const Login = (props) =>{
 
   React.useEffect(() => {
     checkLogin().then((status) => {
-        loginUser();
+        if (status) {
+          loginUser();
+        }
     });
   }, []);
 
