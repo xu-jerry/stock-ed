@@ -6,11 +6,12 @@ function Scroll(props) {
     const [isBottom, setIsBottom] = React.useState(false);
     const [state, setDisplayStocks] = React.useState({
         page: 0,
-        stocksToDisplay: props.stocks.slice(0, 30),
+        stocksToDisplay: props.stocks.slice(0, 63),
     });
 
     
-
+    //Decided not to use scrolling 
+    /*
     React.useEffect(() => {
         document.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -36,7 +37,7 @@ function Scroll(props) {
     }, [isBottom]);
 
 
-
+    
     function handleScroll() {
         const scrollTop = (document.documentElement
             && document.documentElement.scrollTop)
@@ -48,18 +49,17 @@ function Scroll(props) {
             setIsBottom(true);
         }
     }
+    */
 
     //display each stock as a button to click? map()
     return(
         <div>
-            <p> Popular Stocks </p>
-            <ul style = {{ listStyleType: "none" }}> 
+            <div className = "stock_container"> 
                 {state.stocksToDisplay.map(item => (
-                    <li key = {item} > 
-                        <button className="stockButton" onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item}  
-                        </button>
-                    </li>))}
-            </ul>
+                    <button className="stockButton" onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item}  
+                    </button>
+                ))}
+            </div>
             
           
         </div>
