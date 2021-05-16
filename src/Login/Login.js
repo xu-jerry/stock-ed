@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import "./Login.css";
 
 function Login(props) {
   const history = useHistory();
-  const [message1, setmessage1] = useState("Please log in here: ");
-  const [message2, setmessage2] = useState("Have an account? Login here!");
+  const [message, setmessage] = useState(["Please log in here: ", "Don't have an account? Make one "]);
   const [signup, setsignup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,22 +29,19 @@ function Login(props) {
   }
 
   const handleSignupClick = () => {
-    setsignup(!signup);
-    console.log(signup);
-    if (signup) {
-      setmessage1("Please sign up for an account here: ");
-      setmessage2("Have an account? Login here!");
+    if (!signup) {
+      setmessage(["Please sign up for an account here: ", "Have an account? Login "]);
     }
     else {
-      setmessage1("Please log in here: ");
-      setmessage2("Don't have an account? Make one here!");
+      setmessage(["Please log in here: ", "Don't have an account? Make one "]);
     }
+    setsignup(!signup);
   }
 
   return (
     <div className="page">
       <h1>Welcome!</h1>
-      <p>{message1}</p>
+      <p>{message[0]}</p>
       <form>
         <p>Username</p>
         <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
@@ -52,10 +49,10 @@ function Login(props) {
         <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
       </form>
       <br></br>
-      <div className="button" onClick={() => handleHomeClick()}>Back</div>
-      <div className="button" onClick={() => handleSubmitClick()}>Submit</div>
-      <p>{message2}</p>
-      <div className="button" onClick={() => handleSignupClick()}>Signup</div>
+      <div className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
+      <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
+      <br/>
+      <span>{message[1]}<a onClick={() => handleSignupClick()}>here!</a></span>
     </div>
   );
 }

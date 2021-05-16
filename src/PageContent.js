@@ -4,7 +4,7 @@ import Home from './Home';
 import Search from './Search/Search';
 import About from './About';
 import Leaderboard from './Leaderboard/Leaderboard';
-import Login from './Login';
+import Login from './Login/Login';
 import NotFound from './NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import {Route, Switch } from "react-router-dom";  
