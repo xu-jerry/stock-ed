@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './components/Nav';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter} from "react-router-dom";  
-import PageContent from "./PageContent"
+import Content from "./Content"
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Navbar> </Navbar>
-      <PageContent/>
-  </BrowserRouter>,
+  <Content/>,
   document.getElementById('root')
 );
 

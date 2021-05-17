@@ -27,6 +27,7 @@ const Login = (props) =>{
         // Set cookie, will add expiration in the future
         jscookie.set('user', res.data);
         props.setLoginStatus();
+        console.log(props.origin);
         // If the user is on the login page then redirect them to the home page
         if (props.origin === "/login") {
           handleHomeClick();

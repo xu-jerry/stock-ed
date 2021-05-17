@@ -31,6 +31,7 @@ app.get("/leaderboardData", (req, res) => {
 });
 
 app.post("/loginauth", (req, res) => {
+    // Wow, super secure username and password
     if (req.body.username === "abc" && req.body.password === "123") {
         res.status(200).send("testing");
     } else {
