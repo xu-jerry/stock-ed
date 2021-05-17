@@ -1,32 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Navbar from './navigation/nav';
-import App from './App';
-import Stock from './Stock';
-import Home from './Home';
-import Search from './Search';
-import About from './About';
-import Leaderboard from './Leaderboard';
-import Login from './Login';
-import NotFound from './NotFound'
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Switch } from "react-router-dom";  
+import Content from "./Content"
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Navbar> </Navbar>
-    <Switch>
-      <Route exact path = "/" component = {App}/>
-      <Route exact path = "/home" component = {Home}/>
-      <Route path = "/login" component = {Login}/>
-      <Route path = "/leaderboard" component = {Leaderboard}/>
-      <Route path = "/stock/:symbol/" component = {Stock}/>
-      <Route path = "/search" component = {Search}/>
-      <Route path = "/about" component = {About}/>
-      <Route component={NotFound} />
-    </Switch>
-  </BrowserRouter>,
+  <Content/>,
   document.getElementById('root')
 );
 
