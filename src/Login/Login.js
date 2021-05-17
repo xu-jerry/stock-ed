@@ -1,9 +1,8 @@
+import { React, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
 import jscookie from "js-cookie";
-import React from 'react';
 
 const Login = (props) =>{
   const history = useHistory();
@@ -16,47 +15,24 @@ const Login = (props) =>{
     history.push("/Home");
   }
 
-  async function checkLogin() {
-    // In the future, this will send a post request to verify the cookie is valid
-    if (jscookie.get("user") !== undefined) {
-        return true;
-    }
-    return false; // Just for now always say they aren't logged-in
-  }
-
-  function loginUser() {
-    let pageOrigin;
-    // Redirect to page of origin if possible
-    if (typeof props.origin.location.state === undefined) {
-      pageOrigin = props.origin.location.state.from.pathname;
-    } else {
-      pageOrigin = "/home";
-    }
-    console.log(pageOrigin);
-    props.setLoginStatus();
-    history.push(pageOrigin);
-  }
-
-  React.useEffect(() => {
-    checkLogin().then((status) => {
-        if (status) {
-          loginUser();
-        }
-    });
-  }, []);
-
   const handleSubmitClick = () => {
-    console.log(username, password);
+
     axios.post("/loginauth", {
         username: username,
         password: password
       }).then(res => {
+        // Reset input fields
         setUsername("");
         setPassword("");
         // Set cookie, will add expiration in the future
         jscookie.set('user', res.data);
-        loginUser();
+        props.setLoginStatus();
+        // If the user is on the login page then redirect them to the home page
+        if (props.origin === "/login") {
+          handleHomeClick();
+        }
       }).catch(err => {
+        // Reset input fields
         setUsername("");
         setPassword("");
         // TODO: Handle login fail
