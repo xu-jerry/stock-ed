@@ -12,7 +12,7 @@ function Home(props) {
       */
       <div className="page">
         <h1>Welcome to the best way to learn about stocks: StockEd.</h1>
-        <p>Login or Signup to get started!</p>
+        <p>{props.loggedIn ? "Trade stocks or learn more about a specific stock to get started!" : "Login or Signup to get started!"}</p>
       </div>
     );
   }
