@@ -1,17 +1,19 @@
+import { useHistory } from "react-router-dom";
 function Home(props) {
+  const history = useHistory();
+
     return (
-      <>
-      <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet"></link>
-      </head>
-      <body>
-        <h1>Stock<blue>Ed</blue></h1>
-        <p>This is the Home page.</p>
-        <div class="button"><button>Login</button></div>
-        <div class="button"><button>Signup</button></div>
-      </body>
-      </>
+      /*
+      Show user stock fluctuation
+      Stock fluctuation of main stock markets (NASDAQ)
+      Show current amt of money you have 
+      Show portfolio (link to page 4)
+      Add tips and educational links if u suck
+      */
+      <div className="page">
+        <h1>Welcome to the best way to learn about stocks: StockEd.</h1>
+        <p>{props.loggedIn ? "Trade stocks or learn more about a specific stock to get started!" : "Login or Signup to get started!"}</p>
+      </div>
     );
   }
   export default Home;

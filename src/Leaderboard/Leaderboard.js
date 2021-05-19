@@ -55,7 +55,7 @@ function Leaderboard(props) {
    }, [])
 
   return (
-    <div>
+    <div className="page">
       <p>This is the Leaderboard page.</p>
       <table className="styledTable">
         <thead>
