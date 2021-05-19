@@ -27,8 +27,16 @@ app.get("/leaderboardData", (req, res) => {
      * but since there is not one here yet, we just test 
      * leaderboard using some static json above
      */
-    console.log(leaderBoardData);
     res.json(leaderBoardData);
+});
+
+app.post("/loginauth", (req, res) => {
+    // Wow, super secure username and password
+    if (req.body.username === "abc" && req.body.password === "123") {
+        res.status(200).send("testing");
+    } else {
+        res.status(401).send("error");
+    }
 });
 
 app.listen(port);

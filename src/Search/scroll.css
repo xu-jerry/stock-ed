@@ -1,0 +1,24 @@
+.stockButton {
+    color: black;
+    font-size: 20px;
+    padding: 10px 50px;
+    border-radius: 5px;
+    margin: 10px 0px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.stockButton:hover {
+    background-color: black;
+    color: #99B8FF
+}
+
+.stock_container {
+    display: grid;
+    justify-content: left;
+    align-items: center;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    column-gap: 50px;
+}

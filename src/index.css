@@ -1,30 +1,75 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.header {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
-  font-family: 'Gugi', cursive;
-  font-size: 100px;
+  font-size: 50px;
 }
 
-blue {
+.title {
+  font-family: 'Gugi', sans-serif;
+  font-size: 80px; 
+}
+
+body {
+  font-family:'Poppins',sans-serif;
+}
+
+.page {
+  padding: 0 200px;
+}
+
+.blue {
   color: #99B8FF;
 }
 
-p {
-  padding-left: 60px;
+.button {
+  display:inline-block;
+  /* padding:0.35em 1.2em; */
+  border:0.1em solid #FFFFFF;
+  margin:0 0.3em 0.3em 0;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family:'Poppins',sans-serif;
+  font-weight: 300;
+  font-size: 1.5vw;
+  color:#000000;
+  background-color:#e9e9e9;
+  text-align:center;
+  transition: all 0.2s;
+  flex: 1 1 0;
+  width: 5vw;
+  height: 5vh;
+  /* css from https://fdossena.com/?p=html5cool/buttons/i.frag */
+}
+.button:hover{
+  color:#ffffff;
+  background-color:#808080;
 }
 
-.button {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 60px;
+.center {
+  /* someone teach me how to center things */
+  margin: 0 auto;
+  height: 2vh;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2vh;
+  flex-basis: 70vw;
+  width: 80vw;
+  padding: 0;
 }
 
 code {
