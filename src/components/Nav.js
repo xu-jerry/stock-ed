@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 import jscookie from "js-cookie";
 import app from '../base';
-  
+import { getAuth, signOut } from "firebase/auth";
 const Navbar = (props) => {
   const history = useHistory();
 
@@ -28,7 +28,8 @@ const Navbar = (props) => {
   // Log user out and redirect to the login page
   const logout = () => {
     props.logoutUser();
-    app.auth().signOut().then(() => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
       handleLoginClick();
     }).catch((err) => {
       console.log(err);

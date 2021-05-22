@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom";
 import "./Login.css";
 import jscookie from "js-cookie";
 import app from "./../base";
-
+import { doc, setDoc, getFirestore } from "firebase/firestore"; 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged } from "firebase/auth";
 const Login = (props) =>{
   const history = useHistory();
   const [message, setmessage] = useState(["Please log in here: ", "Don't have an account? Make one "]);
@@ -17,11 +19,18 @@ const Login = (props) =>{
   }
 
   const handleSubmitClick = async () => {
+    var db = getFirestore();
+    const auth = getAuth();
     if (signup) {
-      app.auth().createUserWithEmailAndPassword(username, password)
+      
+      createUserWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         // Signed in 
         var user = userCredential.user;
+        setDoc(doc(db, "Users", user.uid), {
+          name: username,
+          password: password,
+        });
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -30,13 +39,13 @@ const Login = (props) =>{
       });
     } else {
       try {
-        await app.auth().signInWithEmailAndPassword(username, password);
+        await signInWithEmailAndPassword(auth, username, password);
       } catch(e) {
         console.log("Failed to login");
       }
     }
       
-    await app.auth().onAuthStateChanged(function(user) {
+    await onAuthStateChanged(auth, function(user) {
       console.log("LOGGED IN!!!");
       if (user) {
         props.setLoginStatus();
