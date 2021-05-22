@@ -9,24 +9,14 @@ import NotFound from './NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import {Route, Switch, BrowserRouter} from "react-router-dom";  
 import Navbar from './components/Nav';
-import jscookie from "js-cookie";
+import app from './base';
 
 function Content(props) {
     const [loggedIn, setLoginStatus] = React.useState(false); 
 
-    async function checkLogin() {
-        // In the future, this will send a post request to verify the cookie is valid
-        if (jscookie.get("user") !== undefined) {
-            return true;
-        }
-        return false;
-    }
-
-    React.useEffect(() => {
-        checkLogin().then((status) => {
-            if (status) {
-              setLoginStatus(true);
-            }
+    React.useEffect(async () => {
+        await app.auth().onAuthStateChanged(user => {
+            return setLoginStatus(user);
         });
     }, []);
 
@@ -36,11 +26,11 @@ function Content(props) {
             <Switch>
                 <Route exact path = "/" render={props => <Home loggedIn = {loggedIn}/>}/>
                 <Route exact path = "/home" render={props => <Home loggedIn = {loggedIn}/>}/>
-                <Route path = "/login" render={props => <Login origin = {props.location.pathname} setLoginStatus = {() => setLoginStatus(true)}/>}/>
+                <Route exact path = "/login" render={props => <Login origin = {props.location.pathname} setLoginStatus = {() => setLoginStatus(true)}/>}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/leaderboard" component = {Leaderboard}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/stock/:id/" component = {Stock}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/search" component = {Search}/>
-                <Route path = "/about" component = {About}/>
+                <Route exact path = "/about" component = {About}/>
                 <Route component={NotFound} />
             </Switch>
         </BrowserRouter>

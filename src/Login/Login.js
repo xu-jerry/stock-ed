@@ -3,6 +3,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
 import jscookie from "js-cookie";
+import app from "./../base";
 
 const Login = (props) =>{
   const history = useHistory();
@@ -12,33 +13,38 @@ const Login = (props) =>{
   const [password, setPassword] = useState("");
 
   const handleHomeClick = () => {
-    history.push("/Home");
+    history.push("/home");
   }
 
-  const handleSubmitClick = () => {
-
-    axios.post("/loginauth", {
-        username: username,
-        password: password
-      }).then(res => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // Set cookie, will add expiration in the future
-        jscookie.set('user', res.data);
+  const handleSubmitClick = async () => {
+    if (signup) {
+      app.auth().createUserWithEmailAndPassword(username, password)
+      .then((userCredential) => {
+        // Signed in 
+        var user = userCredential.user;
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(error);
+      });
+    } else {
+      try {
+        await app.auth().signInWithEmailAndPassword(username, password);
+      } catch(e) {
+        console.log("Failed to login");
+      }
+    }
+      
+    await app.auth().onAuthStateChanged(function(user) {
+      console.log("LOGGED IN!!!");
+      if (user) {
         props.setLoginStatus();
-        console.log(props.origin);
-        // If the user is on the login page then redirect them to the home page
-        if (props.origin === "/login") {
+        if ((props.origin).toString().toLowerCase() === "/login") {
           handleHomeClick();
         }
-      }).catch(err => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // TODO: Handle login fail
-        console.log("Failed to login");
-      })
+      }
+    });
   }
 
   const handleSignupClick = () => {
