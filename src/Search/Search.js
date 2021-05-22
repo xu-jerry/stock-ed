@@ -44,7 +44,7 @@ function Search() {
   };
 
   const goToPage = (ticker) => {
-    history.push(`/Stock/:${ticker}`);
+    history.push(`/Stock/${ticker}`);
   }
 
   return (
