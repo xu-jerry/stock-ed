@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { doc, setDoc, getFirestore } from "firebase/firestore"; 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut} from "firebase/auth";
 
 const app = initializeApp({
   apiKey: "AIzaSyBsv-j022oT9Zp7LKo_3YzyjmXZDdGh6Xk",
@@ -12,4 +14,76 @@ const app = initializeApp({
   measurementId: "G-HF4SLSN9HY"
 });
 
-export default app;
+const db = getFirestore();
+const auth = getAuth();
+
+/* Make a new user with provided username and password 
+ * TODO: Handle the error, (change this method to async and handle that in Login)
+*/
+export function createUser(username, password) {
+  createUserWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      // Signed in 
+      var user = userCredential.user;
+      setDoc(doc(db, "Users", user.uid), {
+        name: username,
+        password: password,
+      });
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(error);
+    });
+}
+
+/* Return true if the user successfully signed in, 
+ * return false otherwise
+ */
+export async function signIn(username, password) {
+  try {
+    await signInWithEmailAndPassword(auth, username, password);
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+export function logOut(afterSignout) {
+  return new Promise((resolve, reject) => {
+    signOut(auth).then(() => {
+      resolve(true);
+    }).catch((err) => {
+      resolve(false);
+    });
+  });
+}
+
+/*
+ * Check if the user is signed in
+ * Return null if user is not signed and the uid if the user is signed in.
+ */
+export function checkLoginStatus() {
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, function(user) {
+      if (user) {
+        resolve(user.uid);
+      } else {
+        resolve(null);
+      }
+    })
+  });
+}
+
+/* You should still ask for the uid by running checkLoginStatus 
+ * before to make sure they're logged in before showing the stock data
+ * for the getUserStockData and getLeaderboardData
+ */
+
+export async function getUserStockData(uid) {
+
+}
+
+export async function getLeaderboardData(uid) {
+
+}

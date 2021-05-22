@@ -9,16 +9,15 @@ import NotFound from './NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import {Route, Switch, BrowserRouter} from "react-router-dom";  
 import Navbar from './components/Nav';
-import app from './base';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { checkLoginStatus } from './base';
+
 function Content(props) {
     const [loggedIn, setLoginStatus] = React.useState(false); 
 
     React.useEffect(async () => {
-        const auth = getAuth()
-        await onAuthStateChanged(auth, user => {
-            return setLoginStatus(user);
-        });
+        if (await checkLoginStatus()) {
+            return setLoginStatus(true);
+        }
     }, []);
 
     return (
