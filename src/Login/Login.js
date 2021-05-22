@@ -1,9 +1,7 @@
 import { React, useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-import jscookie from "js-cookie";
-import app from "./../base";
+import {createUser, signIn, checkLoginStatus} from "./../base";
 
 const Login = (props) =>{
   const history = useHistory();
@@ -18,33 +16,18 @@ const Login = (props) =>{
 
   const handleSubmitClick = async () => {
     if (signup) {
-      app.auth().createUserWithEmailAndPassword(username, password)
-      .then((userCredential) => {
-        // Signed in 
-        var user = userCredential.user;
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(error);
-      });
+      createUser(username, password);
     } else {
-      try {
-        await app.auth().signInWithEmailAndPassword(username, password);
-      } catch(e) {
-        console.log("Failed to login");
+      if (!(await signIn(username, password))) {
+        console.log("Login failed");
       }
     }
-      
-    await app.auth().onAuthStateChanged(function(user) {
-      console.log("LOGGED IN!!!");
-      if (user) {
-        props.setLoginStatus();
-        if ((props.origin).toString().toLowerCase() === "/login") {
-          handleHomeClick();
-        }
+    if (await checkLoginStatus()) {
+      props.setLoginStatus();
+      if ((props.origin).toString().toLowerCase() === "/login") {
+        handleHomeClick();
       }
-    });
+    }
   }
 
   const handleSignupClick = () => {

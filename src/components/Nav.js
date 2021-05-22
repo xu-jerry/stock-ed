@@ -1,8 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import jscookie from "js-cookie";
-import app from '../base';
-  
+import {logOut} from "./../base";
+
 const Navbar = (props) => {
   const history = useHistory();
 
@@ -26,13 +25,11 @@ const Navbar = (props) => {
   }
 
   // Log user out and redirect to the login page
-  const logout = () => {
-    props.logoutUser();
-    app.auth().signOut().then(() => {
+  const logout = async () => {
+    if (await logOut) {
+      props.logoutUser();
       handleLoginClick();
-    }).catch((err) => {
-      console.log(err);
-    });
+    }
   }
 
   return (
