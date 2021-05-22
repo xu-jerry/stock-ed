@@ -31,9 +31,19 @@ function Portfolio() {
      */
 
     return (
-        <div>
-            Portfolio
-        </div>
+	<div className="portfolio">
+        <h1>Portfolio</h1>
+	<p>ORDER STOCK</p>
+	<p>STOCK SYMBOL</p>
+	<p>TRANSACTION</p>
+	<p>QUANTITY</p>
+	<p>PRICE</p>
+	<p>DURATION</p>
+	<p>ACCOUNT DETAILS</p>
+	<p>VALUE (USD)</p>
+	<p>BUYING POWER</p>
+	<p>CASH</p>
+	</div>
     )
 }
 
