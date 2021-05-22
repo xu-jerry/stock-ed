@@ -9,6 +9,7 @@ import NotFound from './NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import {Route, Switch, BrowserRouter} from "react-router-dom";  
 import Navbar from './components/Nav';
+import Portfolio from './Portfolio/Portfolio';
 import jscookie from "js-cookie";
 
 function Content(props) {
@@ -37,6 +38,7 @@ function Content(props) {
                 <Route exact path = "/" render={props => <Home loggedIn = {loggedIn}/>}/>
                 <Route exact path = "/home" render={props => <Home loggedIn = {loggedIn}/>}/>
                 <Route path = "/login" render={props => <Login origin = {props.location.pathname} setLoginStatus = {() => setLoginStatus(true)}/>}/>
+                <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/portfolio" component = {Portfolio}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/leaderboard" component = {Leaderboard}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/stock/:symbol/" component = {Stock}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/search" component = {Search}/>
