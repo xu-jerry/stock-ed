@@ -56,7 +56,7 @@ function Scroll(props) {
         <div>
             <div className = "stock_container"> 
                 {state.stocksToDisplay.map(item => (
-                    <button key={item} className="stockButton" onClick = {/*Take the user to the stocks page*/ props.goToPage}> {item}  
+                    <button key={item} className="stockButton" onClick = {() => props.goToPage(item)}> {item}  
                     </button>
                 ))}
             </div>

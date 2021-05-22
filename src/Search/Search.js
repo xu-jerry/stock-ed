@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import Scroll from "./scroll"
 import './Search.css'
+import { useHistory } from "react-router-dom";
 
 const popularStocks = ["AAL", "AAPL", "ABEV", "AMC", "AMD", "AMZN", "AR", "ARKK", "AUY", "BA", "BABA", "BAC", "BBD",
  "BMY", "BNTX", "C", "CCL", "CLF", "CMCSA", "COIN", "COTY", "CSCO", "CVE", "CVX", "DDD", "DKNG", "DVN", "EBAY", "EDU",
@@ -14,6 +14,8 @@ const popularStocks = ["AAL", "AAPL", "ABEV", "AMC", "AMD", "AMZN", "AR", "ARKK"
 function Search() {
   const [searchStock, setSearchStock] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
+
+  const history = useHistory();
 
   React.useEffect(() => {
     const results = popularStocks.filter(stock =>
@@ -37,11 +39,12 @@ function Search() {
 
   const handleSubmit = event => {
     alert('A name was submitted: ' + searchStock);
+    goToPage(searchStock);
     event.preventDefault();
   };
 
-  const goToPage = () => {
-    /* Take the user to the Stocks Page */
+  const goToPage = (ticker) => {
+    history.push(`/Stock/${ticker}`);
   }
 
   return (
@@ -50,20 +53,20 @@ function Search() {
       <div className = "Search">
         <form onSubmit={handleSubmit}>
           <label>
-            <input type="text" value={searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
+            <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
           </label>
           <input type="submit" value="Search"/>
         </form>
         <ul style = {{ listStyleType: "none" }}>
           Results:
           {searchResults.map(item => (
-            <li key = {item}> <button onClick = {/*Take the user to the stocks page*/ goToPage}> {item} </button></li>
+            <li key = {item}> <button onClick = {() => goToPage(item)}> {item} </button></li>
           ))}
         </ul>
       </div>
 
       <div className = "scroll"> 
-            <Scroll stocks = {popularStocks} goToPage = {goToPage}> Hey </Scroll>
+            <Scroll stocks = {popularStocks} goToPage = {goToPage}>  </Scroll>
       </div>
     </div>
   );

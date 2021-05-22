@@ -37,10 +37,10 @@ const Navbar = (props) => {
 
   return (
     <div className="header">
-        <h1 className="title">Stock<span className="blue">Ed</span></h1>
+        <h1 className="title" onClick={() => handleHomeClick()}>Stock<span className="blue">Ed</span></h1>
         <div className="center">
           <button className="button" onClick={() => handleHomeClick()}>Home</button>
-          <button className="button" onClick={() => handleStockClick()}>Stock</button>
+          {/*<button className="button" onClick={() => handleStockClick()}>Stock</button>*/}
           <button className="button" onClick={() => handleLeaderboardClick()}>Leaderboard</button>
           <button className="button" onClick={() => handleAboutClick()}>About</button>
           <button className="button" onClick={() => handleSearchClick()}>Search</button>

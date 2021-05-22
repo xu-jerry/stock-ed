@@ -59,7 +59,6 @@ body {
 }
 
 .center {
-  /* someone teach me how to center things */
   margin: 0 auto;
   height: 2vh;
   display: flex;

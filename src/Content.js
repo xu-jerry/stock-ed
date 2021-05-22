@@ -28,7 +28,7 @@ function Content(props) {
                 <Route exact path = "/home" render={props => <Home loggedIn = {loggedIn}/>}/>
                 <Route exact path = "/login" render={props => <Login origin = {props.location.pathname} setLoginStatus = {() => setLoginStatus(true)}/>}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/leaderboard" component = {Leaderboard}/>
-                <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/stock/:id/" component = {Stock}/>
+                <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/stock/:symbol/" component = {Stock}/>
                 <PrivateRoute loginUser = {() => setLoginStatus(true)} loggedIn = {loggedIn} path = "/search" component = {Search}/>
                 <Route exact path = "/about" component = {About}/>
                 <Route component={NotFound} />
