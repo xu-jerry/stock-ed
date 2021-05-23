@@ -31,19 +31,39 @@ function Portfolio() {
      */
 
     return (
-	<div className="portfolio">
-        <h1>Portfolio</h1>
-	<p>ORDER STOCK</p>
-	<p>STOCK SYMBOL</p>
-	<p>TRANSACTION</p>
-	<p>QUANTITY</p>
-	<p>PRICE</p>
-	<p>DURATION</p>
-	<p>ACCOUNT DETAILS</p>
-	<p>VALUE (USD)</p>
-	<p>BUYING POWER</p>
-	<p>CASH</p>
-	</div>
+	<div className="page">
+	  <div className="portfolio">
+      	    <h1>My Portfolio</h1>
+	  </div>
+	  <table width="100%">
+	    <thead>
+	      <tr>
+	        <th colspan="1" width="50%">ORDER STOCK</th>
+		<th colspan="1">ACCOUNT DETAILS</th>
+	      </tr>
+	    </thead>		
+	    <tbody>
+	      <tr>
+		<td colspan="1">Stock symbol</td>
+		<td colspan="1">Value</td>
+	      </tr>
+	      <tr>
+		<td colspan="1">Transaction</td>
+		<td colspan="1">Buying power</td>
+	      </tr>
+	      <tr>
+		<td colspan="1">Quantity</td>
+		<td colspan="1">Cash</td>
+	      </tr>
+	      <tr>
+		<td>Price</td>
+	      </tr>
+	      <tr>
+		<td>Duration</td>
+	      </tr> 
+	    </tbody>
+	  </table> 
+	  </div>
     )
 }
 
