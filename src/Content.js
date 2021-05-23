@@ -14,10 +14,13 @@ import { checkLoginStatus } from './base';
 function Content(props) {
     const [loggedIn, setLoginStatus] = React.useState(false); 
 
-    React.useEffect(async () => {
-        if (await checkLoginStatus()) {
-            return setLoginStatus(true);
+    React.useEffect(() => {
+        async function checkLoginState() {
+            if (await checkLoginStatus()) {
+                setLoginStatus(true);
+            }
         }
+        checkLoginState();
     }, []);
 
     return (

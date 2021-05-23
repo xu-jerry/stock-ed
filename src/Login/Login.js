@@ -54,7 +54,7 @@ const Login = (props) =>{
       <div className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
       <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
       <br/>
-      <span>{message[1]}<a onClick={() => handleSignupClick()}>here!</a></span>
+      <span>{message[1]}<span id="switchForm" onClick={() => handleSignupClick()}>here!</span></span>
     </div>
   );
 }

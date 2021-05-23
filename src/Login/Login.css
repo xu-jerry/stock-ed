@@ -3,8 +3,10 @@
     line-height: 4vh;
     height: 4vh;
     width: 6vw;
+    cursor: pointer;
 }
 
-a {
+#switchForm {
     color: blue;
+    cursor: pointer;
 }
