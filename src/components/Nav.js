@@ -26,7 +26,7 @@ const Navbar = (props) => {
 
   // Log user out and redirect to the login page
   const logout = async () => {
-    if (await logOut) {
+    if (await logOut()) {
       props.logoutUser();
       handleLoginClick();
     }
