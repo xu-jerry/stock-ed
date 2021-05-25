@@ -1,6 +1,18 @@
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import React from "react";
+
 function Home(props) {
   const history = useHistory();
+  const [stockNews, setNews] = React.useState([]);
+
+
+  React.useEffect(() => {
+    axios.get('/stocknews')
+      .then((response) => {
+        setNews(response.data);
+      });
+  }, []);
 
     return (
       /*
@@ -13,6 +25,14 @@ function Home(props) {
       <div className="page">
         <h1>Welcome to the best way to learn about stocks: StockEd.</h1>
         <p>{props.loggedIn ? "Trade stocks or learn more about a specific stock to get started!" : "Login or Signup to get started!"}</p>
+        <div>
+          <h2>Latest Stock News</h2>
+          <ul>
+            {stockNews.map((item, index) => {
+              return <li key = {index}><a href={item[1]}>{item[0]}</a></li>
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
