@@ -1,5 +1,7 @@
 const morgan = require("morgan");
 const express = require("express");
+const cheerio = require('cheerio');
+const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3001;
 const yahooFinance = require('yahoo-finance');
@@ -33,6 +35,21 @@ app.get("/leaderboardData", (req, res) => {
      */
     res.json(leaderBoardData);
 });
+app.get("/stocknews", async (req, res) => {
+    let forbesNews = await getLatestNews("https://www.forbes.com/investing/?sh=3a24170110ba", 5, ($, i) => {
+        let articleTitle = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).text();
+        let articleLink = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).attr('href');
+        return [articleTitle, articleLink];
+    });
+    let economistNews = await getLatestNews("https://www.economist.com/finance-and-economics", 5, ($, i) => {
+        let articleTitle = $(`main > div > div.layout-section-collection > div:nth-child(${i}) > div.teaser__text >
+            h2 > a.headline-link > span.teaser__headline`).text();
+        let articleLink = $(`main > div > div.layout-section-collection > div:nth-child(${i}) > div.teaser__text >
+            h2 > a.headline-link`).attr('href');
+        return [articleTitle, "https://www.economist.com/finance-and-economics" + articleLink];
+    });
+    res.send(JSON.stringify(forbesNews.concat(economistNews)));
+});
 
 app.listen(port);
 
@@ -62,3 +79,13 @@ function getHistoricalData(symbol, fromDate, toDate,callback){
     });
 }
 
+async function getLatestNews(url, linkNums, getData) {
+    const data = [];
+    let response = await axios.get(url);
+    let $ = cheerio.load(response.data);
+
+    for (let i = 1; i <= linkNums; i++) {
+        data.push(getData($, i));
+    }
+    return data;
+}
