@@ -46,7 +46,7 @@ app.get("/stocknews", async (req, res) => {
             h2 > a.headline-link > span.teaser__headline`).text();
         let articleLink = $(`main > div > div.layout-section-collection > div:nth-child(${i}) > div.teaser__text >
             h2 > a.headline-link`).attr('href');
-        return [articleTitle, "https://www.economist.com/finance-and-economics" + articleLink];
+        return [articleTitle, "https://www.economist.com/" + articleLink];
     });
     res.send(JSON.stringify(forbesNews.concat(economistNews)));
 });
