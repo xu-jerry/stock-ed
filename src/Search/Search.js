@@ -49,7 +49,7 @@ function Search() {
 
   return (
     <div className = "Main-Page">
-      <p> This is the search page </p>
+      <p> Search for your favorite stock, or click on any of the popular stocks down below to see their recent fluctuations in price! </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
           <label>
