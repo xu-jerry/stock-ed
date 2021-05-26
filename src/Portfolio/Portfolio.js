@@ -30,6 +30,20 @@ function Portfolio() {
      * Later we can make the symbol a link to the search page
      */
 
+	const tickers = [];
+	const companyNames = [];
+	const amounts = [];
+	const purchasePrices = [];
+	const currentPrices = [];
+	for (const name of data) {
+		const url = "/Stock/" + name.ticker;
+		tickers.push(<><br></br><a href = {url}>{name.ticker}</a></>);
+		companyNames.push(<><br></br>{name.companyName}</>);
+		amounts.push(<><br></br>{name.amount}</>);
+		purchasePrices.push(<><br></br>{name.purchasePrice}</>);
+		currentPrices.push(<><br></br>{name.currentPrice}</>);
+	}
+
     return (
 	<div className="page">
 	  <div className="portfolio">
@@ -38,29 +52,30 @@ function Portfolio() {
 	  <table width="100%">
 	    <thead>
 	      <tr>
-	        <th colspan="1" width="50%">ORDER STOCK</th>
 		<th colspan="1">ACCOUNT DETAILS</th>
+	      </tr>
+	      <tr>
+		  <td colspan="1">Value</td>
+		<td colspan="1">Buying power</td>
+		<td colspan="1">Cash</td>
+	      </tr>
+	    </thead>
+	  </table> 
+	  <hr></hr>
+	  <table width="100%">
+	    <thead>
+	      <tr>
+	        <th colspan="1">ORDER STOCK</th>
 	      </tr>
 	    </thead>		
 	    <tbody>
 	      <tr>
-		<td colspan="1">Stock symbol</td>
-		<td colspan="1">Value</td>
+		<td colspan="1">Symbol{tickers}</td>
+		<td colspan="1">Company{companyNames}</td>
+		<td colspan="1">Amount{amounts}</td>
+		<td colspan="1">Purchase Price ($){purchasePrices}</td>
+		<td colspan="1">Current Price ($){currentPrices}</td>
 	      </tr>
-	      <tr>
-		<td colspan="1">Transaction</td>
-		<td colspan="1">Buying power</td>
-	      </tr>
-	      <tr>
-		<td colspan="1">Quantity</td>
-		<td colspan="1">Cash</td>
-	      </tr>
-	      <tr>
-		<td>Price</td>
-	      </tr>
-	      <tr>
-		<td>Duration</td>
-	      </tr> 
 	    </tbody>
 	  </table> 
 	  </div>

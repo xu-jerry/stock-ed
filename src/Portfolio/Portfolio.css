@@ -6,3 +6,7 @@ td, th {
 	padding: 1rem;
 	text-align: left;
 }
+
+table {
+	border: 1px solid black;
+}
