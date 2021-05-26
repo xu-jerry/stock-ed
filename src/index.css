@@ -89,3 +89,7 @@ code {
   padding-left: 0;
   padding-bottom: 3%;
 }
+
+ul * {
+  padding: 0 !important;
+}

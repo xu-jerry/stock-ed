@@ -1,8 +1,7 @@
 import { React, useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-import jscookie from "js-cookie";
+import {createUser, signIn, checkLoginStatus} from "./../base";
 
 const Login = (props) =>{
   const history = useHistory();
@@ -12,33 +11,23 @@ const Login = (props) =>{
   const [password, setPassword] = useState("");
 
   const handleHomeClick = () => {
-    history.push("/Home");
+    history.push("/home");
   }
 
-  const handleSubmitClick = () => {
-
-    axios.post("/loginauth", {
-        username: username,
-        password: password
-      }).then(res => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // Set cookie, will add expiration in the future
-        jscookie.set('user', res.data);
-        props.setLoginStatus();
-        console.log(props.origin);
-        // If the user is on the login page then redirect them to the home page
-        if (props.origin === "/login") {
-          handleHomeClick();
-        }
-      }).catch(err => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // TODO: Handle login fail
-        console.log("Failed to login");
-      })
+  const handleSubmitClick = async () => {
+    if (signup) {
+      createUser(username, password);
+    } else {
+      if (!(await signIn(username, password))) {
+        console.log("Login failed");
+      }
+    }
+    if (await checkLoginStatus()) {
+      props.setLoginStatus();
+      if ((props.origin).toString().toLowerCase() === "/login") {
+        handleHomeClick();
+      }
+    }
   }
 
   const handleSignupClick = () => {
@@ -65,7 +54,7 @@ const Login = (props) =>{
       <div id="firstButton" className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
       <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
       <br/>
-      <span>{message[1]}<a onClick={() => handleSignupClick()}>here!</a></span>
+      <span>{message[1]}<span id="switchForm" onClick={() => handleSignupClick()}>here!</span></span>
     </div>
   );
 }

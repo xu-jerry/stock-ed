@@ -18,9 +18,11 @@ form {
 input {
     padding-left: 0 !important;
     margin-left: 12vw;
+    cursor: pointer;
 }
 
-a {
+#switchForm {
     color: blue;
     padding-left: 0 !important;
+    cursor: pointer;
 }

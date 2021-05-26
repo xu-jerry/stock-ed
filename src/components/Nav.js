@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import jscookie from "js-cookie";
-  
+import {logOut} from "./../base";
+
 const Navbar = (props) => {
   const history = useHistory();
 
@@ -27,11 +27,12 @@ const Navbar = (props) => {
     history.push("/search");
   }
 
-  // Remove user cookie and redirect user to the login page
-  const logout = () => {
-    jscookie.remove("user");
-    props.logoutUser();
-    handleLoginClick();
+  // Log user out and redirect to the login page
+  const logout = async () => {
+    if (await logOut()) {
+      props.logoutUser();
+      handleLoginClick();
+    }
   }
 
   return (
