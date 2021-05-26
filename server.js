@@ -36,11 +36,11 @@ app.get("/leaderboardData", (req, res) => {
     res.json(leaderBoardData);
 });
 app.get("/stocknews", async (req, res) => {
-    let forbesNews = await getLatestNews("https://www.forbes.com/investing/?sh=3a24170110ba", 5, ($, i) => {
-        let articleTitle = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).text();
-        let articleLink = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).attr('href');
-        return [articleTitle, articleLink];
-    });
+    // let forbesNews = await getLatestNews("https://www.forbes.com/investing/?sh=3a24170110ba", 5, ($, i) => {
+    //     let articleTitle = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).text();
+    //     let articleLink = $(`.pop-picks__content > div.editors-picks > div:nth-child(${i}) > a`).attr('href');
+    //     return [articleTitle, articleLink];
+    // });
     let economistNews = await getLatestNews("https://www.economist.com/finance-and-economics", 5, ($, i) => {
         let articleTitle = $(`main > div > div.layout-section-collection > div:nth-child(${i}) > div.teaser__text >
             h2 > a.headline-link > span.teaser__headline`).text();
@@ -48,7 +48,7 @@ app.get("/stocknews", async (req, res) => {
             h2 > a.headline-link`).attr('href');
         return [articleTitle, "https://www.economist.com/" + articleLink];
     });
-    res.send(JSON.stringify(forbesNews.concat(economistNews)));
+    res.send(JSON.stringify(economistNews));
 });
 
 app.listen(port);
