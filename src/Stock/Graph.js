@@ -4,8 +4,8 @@ import { options, getLabels, getPrices } from './StockUtils';
 import styled from 'styled-components'
 
 const GraphContainer = styled.div`
-  width:800px;
-  height:400px;
+  width:700px;
+  height:350px;
   background-color: white;
   display: flex;
 `
@@ -20,8 +20,8 @@ const Graph = React.memo(({ stock, today }) => {
         data:  getPrices(stock, today),
         fill: false,
         pointRadius: 1,
-        backgroundColor: 'rgb(32, 184, 6)',
-        borderColor: 'rgb(32, 184, 6)',
+        backgroundColor: '#0A54FF',
+        borderColor: '#0A54FF',
       },
     ],
   }

@@ -2,39 +2,51 @@ import React, {useState} from 'react';
 import styled from 'styled-components'
 
 const Mover = styled.button` 
-height: 50px;
-width: 200px;
-margin: 20px;
-font-size: 1.2em;
-padding: 1em;
-border-radius: 4px;
-text-align: center;
-cursor: pointer;
-border: 0;
-background-color: #f0f8ff;
+    height: 50px;
+    width: 200px;
+    margin: 20px;
+    font-size: 1.4em;
+    padding: 1em;
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 0;
+    line-height: 10px;
+    background-color: #edf2fb;
+`
+const GenText = styled.h6`
+    font-size: 1.2em;
+    text-align: center;
+    font-weight:normal;
+    margin: 0px;
+
 `
 
 const ButtonCont = styled.div`
-display: flex;
-flex-direction: column;
-margin-top: 50px; 
-border: 20px;
-border-radius: 20px;
-background-color: white;
-border-width: 5px;
-border-color: black;
-box-shadow: rgb(0 0 0 / 25%) 0px 0px 4px;
-justify-content: center;
-align-items: center;
-background-color: white;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px; 
+    border: 20px;
+    border-radius: 20px;
+    background-color: white;
+    border-width: 5px;
+    border-color: black;
+    box-shadow: rgb(0 0 0 / 25%) 0px 0px 4px;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 25vw;
 `
 const TitleCont = styled.div`
     display: flex;
-    background-color: rgb(237, 241, 255);
+    background-color: #edf2fb;
+    border-radius: 20px 20px 0px 0px;
     align-items: center;
     justify-content: center;
     height: 70px;
-    width: 300px;
+    width: 25vw;
 `
 const NumInput = styled.input`
     color: black;
@@ -43,18 +55,26 @@ const NumInput = styled.input`
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    
+`
+const TransactionCompleteContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 const TransactionBar = (props) =>{
     const [shouldDropDown, setDropDown] = useState(-1)
-    const [transactionMade, setTransactionMade] = useState({})
     const [amount, setAmount] = useState(0)
+    const [didTransactionComplete, setDidTransactionComplete] = useState(-1);
     const handleClickMover = (a) =>{
         setDropDown(a);
+        setDidTransactionComplete(-1);
+        setAmount(-1);
     };
     const getMaxAmount = (buying) =>{
+        buying = shouldDropDown == 1 ? true : false;
         if(buying){
             //return amount of liquid money/current stock price
+            //we have props.price for current stock price btw
             return 20;
         }
         else{
@@ -62,37 +82,47 @@ const TransactionBar = (props) =>{
             return 10;
         }
     }
-    const moveStock = (e,buying) => {
+    const moveStock = (e) => {
         e.preventDefault()
-        console.log(amount)
+        let buying = shouldDropDown == 1 ? true : false
         if(buying){
         //implement api call to say we bough the stock!!
          }
         else{
           //implement api call saying we sold the stock!!
         }
+        if(amount > 0)
+            setDidTransactionComplete(shouldDropDown);
         setDropDown(-1);
-        setTransactionMade({buying: buying})
-      }
-    const renderDropDown = (buying) =>{
+    }
+    const renderDropDown = () =>{
         return (
-          <Form onSubmit={(event) => {moveStock(event, buying)}}>
-            <h3>Amount of shares:
-            </h3>
-            <NumInput type="number" min = "0" max = {getMaxAmount(buying)} onChange={(event)=>setAmount(event.target.value)} />
+          <Form onSubmit={(event) => {moveStock(event)}}>
+            <GenText>Amount of shares:
+            </GenText>
+            <NumInput type="number" min = "0" max = {getMaxAmount()} placeholder = "0" onChange={(event)=>setAmount(event.target.value)} />
             <input type="submit" value="Submit" />
           </Form>
         );
       }
+    const renderSuccessText = () =>{
+        return(
+            <TransactionCompleteContainer>
+                <GenText>Congrats, you successfully {didTransactionComplete == 1 ? "bought" : "sold"} {amount} share(s) of {props.symbol.toUpperCase()}!</GenText>
+            </TransactionCompleteContainer>
+          )
+    }
     return(
     <ButtonCont>
         <TitleCont>
-            <h3>Make a Transaction</h3>
+            <GenText>Make a Transaction</GenText>
         </TitleCont>
-          <Mover onClick={()=>handleClickMover(1)}>Buy Stock</Mover>
-          {shouldDropDown==1 ? renderDropDown(true) : null}
-          <Mover onClick ={() => handleClickMover(0)}>Sell Stock</Mover>
-          {shouldDropDown==0 ? renderDropDown(false) : null}
+        <Mover onClick={()=>handleClickMover(1)}>Buy Stock</Mover>
+        {shouldDropDown==1 ? renderDropDown() : null}
+        <Mover onClick ={() => handleClickMover(0)}>Sell Stock</Mover>
+        {shouldDropDown==0 ? renderDropDown() : null}
+
+        {didTransactionComplete != -1 ? renderSuccessText() : null}
     </ButtonCont>
     )
 }

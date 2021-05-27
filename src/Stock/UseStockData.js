@@ -42,7 +42,7 @@ const useStockData = (symbol) => {
     fetchData();
   }, [dateRange])
 
-  return [stock, today, setDateRange, isValidTicker]
+  return [stock, today, dateRange, setDateRange, isValidTicker]
 }
 
 export default useStockData;
