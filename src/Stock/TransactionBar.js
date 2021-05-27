@@ -16,7 +16,7 @@ const Mover = styled.button`
     background-color: #edf2fb;
 `
 const GenText = styled.h6`
-    font-size: 1.2em;
+    font-size: 1.4em;
     text-align: center;
     font-weight:normal;
     margin: 0px;

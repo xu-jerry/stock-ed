@@ -17,15 +17,12 @@ const BigContainer = styled.div`
 `
 
 const Title = styled.div`
-  font-family: Capsule Sans Text,-apple-system,BlinkMacSystemFont,sans-serif;
-  font-size: 50px;
-  padding: 10px;
+  padding-top: 10px;
+  font-size: 55px;
 `
 const TitleTwo = styled.div`
-  font-family: Capsule Sans Text,-apple-system,BlinkMacSystemFont,sans-serif;
   font-size: 30px;
-  padding: 10px;
-  color: grey;
+  color: #0a54ff;
 `
 
 const LeftColumn = styled.div`
