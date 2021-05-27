@@ -23,13 +23,17 @@ const auth = getAuth();
 export async function createUser(username, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, username, password);
-    // Signed in 
-    var user = userCredential.user;
+    const user = userCredential.user;
     setDoc(doc(db, "Users", user.uid), {
       name: username,
+      accountValue: [100000],
+      stocks: "",
+      cash: 100000,
+      lastLoggedIn: new Date.now()
     });
+    return true;
   } catch(error) {
-    console.log(error);
+    return error.message;
   }
 }
 
@@ -41,8 +45,8 @@ export async function signIn(username, password) {
   try {
     await signInWithEmailAndPassword(auth, username, password);
     return true;
-  } catch(e) {
-    return false;
+  } catch(error) {
+    return error.message;
   }
 }
 

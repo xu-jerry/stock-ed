@@ -34,7 +34,7 @@ function Portfolio() {
 	for (const name of data) {
 		const url = "/Stock/" + name.ticker;
 		
-		tableBody.push(<tr><th><a href = {url}>{name.ticker}</a></th>
+		tableBody.push(<tr key={name.ticker}><th><a href = {url}>{name.ticker}</a></th>
 			<th>{name.companyName}</th>
 			<th>{name.amount}</th>
 			<th>{name.purchasePrice}</th>

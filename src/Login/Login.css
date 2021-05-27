@@ -26,3 +26,15 @@ input {
     padding-left: 0 !important;
     cursor: pointer;
 }
+
+.invalid {
+    border: 1px solid red;
+}
+
+.hidden {
+    display: none;
+}
+
+#errorMessage {
+    color: red;
+}

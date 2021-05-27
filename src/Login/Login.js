@@ -9,6 +9,7 @@ const Login = (props) =>{
   const [signup, setsignup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleHomeClick = () => {
     history.push("/home");
@@ -16,17 +17,23 @@ const Login = (props) =>{
 
   const handleSubmitClick = async () => {
     if (signup) {
-      await createUser(username, password);
+      const madeUser = await createUser(username, password)
+      if (madeUser !== true) {
+        setErrorMessage(madeUser);
+      }
     } else {
-      if (!(await signIn(username, password))) {
-        console.log("Login failed");
+      const signedIn = await signIn(username, password)
+      if (signedIn !== true) {
+        setErrorMessage(signedIn);
       }
     }
+    setUsername("");
+    setPassword("");
     if (await checkLoginStatus()) {
-      props.setLoginStatus();
       if ((props.origin).toString().toLowerCase() === "/login") {
         handleHomeClick();
       }
+      props.setLoginStatus();
     }
   }
 
@@ -46,15 +53,16 @@ const Login = (props) =>{
       <p>{message[0]}</p>
       <form>
         <p>Username</p>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
+        <input className={errorMessage === "" ? "" : "invalid"} type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
         <p>Password</p>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
+        <input className={errorMessage === "" ? "" : "invalid"} type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
       </form>
       <br></br>
       <div id="firstButton" className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
       <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
       <br/>
       <span>{message[1]}<span id="switchForm" onClick={() => handleSignupClick()}>here!</span></span>
+      <div id="errorMessage" className={errorMessage === "" ? "hidden": ""}>{errorMessage}</div>
     </div>
   );
 }
