@@ -41,9 +41,9 @@ function Stock(props) {
 
   const symbol = props.match.params.symbol
 
-  const [stock, today, dateRange, updateDateRange, isValidTicker] = useStockData(symbol)
-
+  const [stock, today, dateRange, updateDateRange, isValidTicker, isLoading, setIsLoading] = useStockData(symbol)
   const intervalClicked = useCallback((arg) => {
+    setIsLoading(true)
     updateDateRange(arg)
   })
   if(!isValidTicker){
@@ -57,7 +57,7 @@ function Stock(props) {
         <Title>{getLongName(today, symbol)}</Title>
         <TitleTwo>${getCurrentPrice(today)}</TitleTwo>
         <IntervalSelector dateRange = {dateRange} intervalClicked = {intervalClicked}></IntervalSelector>
-        <Graph stock={stock} today={today} />
+        <Graph isLoading = {isLoading} stock={stock} today={today} />
       </LeftColumn>
       <RightColumn>
         <TransactionBar symbol = {symbol} price = {getCurrentPrice(today)}></TransactionBar>

@@ -16,7 +16,7 @@ const useStockData = (symbol) => {
   const [today, setToday] = useState({data: []})
   const [dateRange, setDateRange] = useState(3)
   const [isValidTicker, setIsValidTicker] = useState(true)
-
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
       const currData = await axios.get(`/stock`, {
@@ -35,6 +35,7 @@ const useStockData = (symbol) => {
           setIsValidTicker(false)
       }
       else{
+        setIsLoading(false)
         setToday({data: [currData.data]})
         setStock(stockData)  
       }   
@@ -42,7 +43,7 @@ const useStockData = (symbol) => {
     fetchData();
   }, [dateRange])
 
-  return [stock, today, dateRange, setDateRange, isValidTicker]
+  return [stock, today, dateRange, setDateRange, isValidTicker, isLoading, setIsLoading]
 }
 
 export default useStockData;

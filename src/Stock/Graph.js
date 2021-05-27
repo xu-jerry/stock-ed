@@ -10,8 +10,10 @@ const GraphContainer = styled.div`
   display: flex;
 `
 
-const Graph = React.memo(({ stock, today }) => {
+const Graph = React.memo(({ isLoading, stock, today }) => {
   
+   console.log(stock)
+   console.log(today)
   const data = {
     labels: getLabels(stock, today),
     datasets: [
@@ -27,9 +29,11 @@ const Graph = React.memo(({ stock, today }) => {
   }
 
   return (
+
     <GraphContainer>
-      <Line data={data} options={options} />
+      {isLoading ? <h1>loading</h1> :<Line data={data} options={options} />}
     </GraphContainer>
+
   )
 })
 
