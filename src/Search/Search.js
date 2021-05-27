@@ -38,9 +38,12 @@ function Search() {
   };
 
   const handleSubmit = event => {
-    alert('A name was submitted: ' + searchStock);
-    goToPage(searchStock);
     event.preventDefault();
+    // console.log('A name was submitted: ' + searchStock);
+    if (searchStock !== "") {
+      goToPage(searchStock);
+      event.preventDefault();
+    }
   };
 
   const goToPage = (ticker) => {
@@ -54,9 +57,9 @@ function Search() {
       <p> Search for your favorite stock, or click on any of the popular stocks down below to see their recent fluctuations in price! </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
-          <label>
+          {/* <label> */}
             <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
-          </label>
+          {/* </label> */}
           <input type="submit" value="Search"/>
         </form>
         <ul style = {{ listStyleType: "none" }}>
