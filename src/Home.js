@@ -24,13 +24,14 @@ function Home(props) {
         <h1>Welcome to the best way to learn about stocks: StockEd.</h1>
         <p>{props.loggedIn ? "Trade stocks or learn more about a specific stock to get started!" : "Login or Signup to get started!"}</p>
         
+        <div className="blueBackground">
         <h2>Latest Stock News</h2>
         <ul>
           {stockNews.map((item, index) => {
             return <li key = {index}><a href={item[1]}>{item[0]}</a></li>
           })}
         </ul>
-        
+        </div>
       </div>
     );
   }

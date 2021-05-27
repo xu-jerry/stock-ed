@@ -48,7 +48,9 @@ function Search() {
   }
 
   return (
-    <div className = "Main-Page">
+    <>
+    <div className="page">
+      <h1>Search</h1>
       <p> Search for your favorite stock, or click on any of the popular stocks down below to see their recent fluctuations in price! </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
@@ -60,15 +62,18 @@ function Search() {
         <ul style = {{ listStyleType: "none" }}>
           Results:
           {searchResults.map(item => (
-            <li key = {item}> <button onClick = {() => goToPage(item)}> {item} </button></li>
+            <li key = {item}> <button className="niceButton" onClick = {() => goToPage(item)}> {item} </button></li>
           ))}
         </ul>
       </div>
-
+      <h1>Popular Stocks</h1>
+      </div>
+      <div className = "Main-Page">
       <div className = "scroll"> 
             <Scroll stocks = {popularStocks} goToPage = {goToPage}>  </Scroll>
       </div>
     </div>
+    </>
   );
 
 }

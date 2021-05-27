@@ -88,6 +88,17 @@ code {
   margin: 0 auto;
   padding-left: 0;
   padding-bottom: 3%;
+  padding-top: 1%;
+}
+
+.blueBackground{
+  background-color: #99B8FF;
+  color: #FFFFFF;
+  width: 100vw;
+  margin: 0 auto;
+  padding-left: 0;
+  padding-bottom: 3%;
+  padding-top: 1%;
 }
 
 ul * {
