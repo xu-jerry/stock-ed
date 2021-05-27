@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const IntervalBox = styled.div`
-  margin-left: 10px;
   display: flexbox;
   flex-direction: row;
 `
