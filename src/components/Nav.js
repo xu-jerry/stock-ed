@@ -14,9 +14,6 @@ const Navbar = (props) => {
   const handleLoginClick = () => {
     history.push("/login");
   }
-  const handleStockClick = () => {
-    history.push("/Stock/:id");
-  }
   const handleLeaderboardClick = () => {
     history.push("/leaderboard");
   }

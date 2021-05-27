@@ -16,7 +16,7 @@ const Login = (props) =>{
 
   const handleSubmitClick = async () => {
     if (signup) {
-      createUser(username, password);
+      await createUser(username, password);
     } else {
       if (!(await signIn(username, password))) {
         console.log("Login failed");

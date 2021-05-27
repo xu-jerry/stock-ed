@@ -1,9 +1,7 @@
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import React from "react";
 
 function Home(props) {
-  const history = useHistory();
   const [stockNews, setNews] = React.useState([]);
 
 

@@ -3,7 +3,7 @@ import { doc, setDoc, getFirestore } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 
-const app = initializeApp({
+initializeApp({
   apiKey: "AIzaSyBsv-j022oT9Zp7LKo_3YzyjmXZDdGh6Xk",
   authDomain: "stocked-8d0a4.firebaseapp.com",
   databaseURL: "https://stocked-8d0a4-default-rtdb.firebaseio.com",
@@ -20,22 +20,19 @@ const auth = getAuth();
 /* Make a new user with provided username and password 
  * TODO: Handle the error, (change this method to async and handle that in Login)
 */
-export function createUser(username, password) {
-  createUserWithEmailAndPassword(auth, username, password)
-    .then((userCredential) => {
-      // Signed in 
-      var user = userCredential.user;
-      setDoc(doc(db, "Users", user.uid), {
-        name: username,
-        password: password,
-      });
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(error);
+export async function createUser(username, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, username, password);
+    // Signed in 
+    var user = userCredential.user;
+    setDoc(doc(db, "Users", user.uid), {
+      name: username,
     });
+  } catch(error) {
+    console.log(error);
+  }
 }
+
 
 /* Return true if the user successfully signed in, 
  * return false otherwise
