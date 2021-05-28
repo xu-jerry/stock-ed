@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { doc, setDoc, getFirestore } from "firebase/firestore"; 
+import { onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc } from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
+import React from "react";
+import { last } from "cheerio/lib/api/traversing";
 
 initializeApp({
   apiKey: "AIzaSyBsv-j022oT9Zp7LKo_3YzyjmXZDdGh6Xk",
@@ -23,12 +25,12 @@ export async function createUser(username, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, username, password);
     const user = userCredential.user;
-    setDoc(doc(db, "Users", user.uid), {
+    await setDoc(doc(db, "Users", user.uid), {
       name: username,
       accountValue: [100000],
-      stocks: "",
+      stocks: "{}",
       cash: 100000,
-      lastLoggedIn: new Date.now()
+      lastLoggedIn: Timestamp.now()
     });
     return true;
   } catch(error) {
@@ -67,6 +69,7 @@ export function checkLoginStatus() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, function(user) {
       if (user) {
+        getUserStockData(user.uid)
         resolve(user.uid);
       } else {
         resolve(null);
@@ -80,11 +83,7 @@ export function checkLoginStatus() {
  * for the getUserStockData and getLeaderboardData
  */
 
-export async function getUserStockData(uid) {
-  if (!uid) {
-    return null;
-  }
-}
+
 
 export async function setUserStockData(uid, userData) {
   if (!uid) {
@@ -93,18 +92,64 @@ export async function setUserStockData(uid, userData) {
 
   try {
     // Sync user's data on the database with updated version
+    await updateDoc(doc(db, "Users", uid ), {
+      cash: userData.cash,
+      stocks: JSON.stringify(userData.stocks),
+    });
     return true;
   } catch (e) {
     return false;
   }
 }
-
-export async function getLeaderboardData(uid) {
-  if (!uid) {
-    return null;
+class UserData
+{
+  constructor (name, accountValue, stocks, cash, lastLoggedIn) {
+    this.name = name;
+    this.accountValue = accountValue;
+    this.stocks = stocks;
+    this.cash = cash;
+    this.lastLoggedIn = lastLoggedIn;
   }
 }
+export async function getUserStockData(uid) {
+  return new Promise((resolve, reject) => {
+    if (true)
+    {
+      const firebaseData = onSnapshot(doc(db, "Users", uid), (doc) => {
+          var userData = new UserData(doc.data().name, doc.data().accountValue, 
+                                  JSON.parse(doc.data().stocks), doc.data().cash, 
+                                  doc.data().lastLoggedIn);
+          console.log(userData);
+          resolve(userData);
+          
+      });
+    }
+    else
+    {
+      resolve(null);
+    }
+  
+  });
+}
 
+/*export async function getLeaderboardData(uid) {
+  return new Promise((resolve, reject) => {
+    if (checkLoginStatus())
+    {
+        userdata = onSnapshot(doc(db, "Users", user.uid), (doc) => {
+          console.log("Current data: ", doc.data().leaderboardData);
+          resolve(doc.data().leaderboardData);
+        });
+        
+    }
+    else
+    {
+      resolve(null);
+    }
+  
+  });
+}
+*/
 /* Trade stock attemps to sell/buy a certain amount
  * of a stock specified by the ticker. If the user is 
  * not able to buy/sell the specified amount, then return 
