@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .header {
-  margin: 0;
+  margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -14,6 +14,7 @@
 
 h1 {
   font-size: 50px;
+  padding-right: 12vw;
 }
 
 .title {
@@ -23,10 +24,15 @@ h1 {
 
 body {
   font-family:'Poppins',sans-serif;
+  margin: 0;
 }
 
-.page {
-  padding: 0 200px;
+p {
+  padding-right: 12vw;
+}
+
+.page * {
+  padding-left: 12vw;
 }
 
 .blue {
@@ -51,7 +57,6 @@ body {
   flex: 1 1 0;
   width: 5vw;
   height: 5vh;
-  /* css from https://fdossena.com/?p=html5cool/buttons/i.frag */
 }
 .button:hover{
   color:#ffffff;
@@ -74,4 +79,28 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.grayBackground{
+  background-color: rgb(92, 92, 92);
+  color: #FFFFFF;
+  width: 100vw;
+  margin: 0 auto;
+  padding-left: 0;
+  padding-bottom: 3%;
+  padding-top: 1%;
+}
+
+.blueBackground{
+  background-color: #99B8FF;
+  color: #FFFFFF;
+  width: 100vw;
+  margin: 0 auto;
+  padding-left: 0;
+  padding-bottom: 3%;
+  padding-top: 1%;
+}
+
+ul * {
+  padding: 0 !important;
 }

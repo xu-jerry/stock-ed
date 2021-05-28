@@ -1,10 +1,28 @@
 .loginButton {
     font-size: 1.5vw;
-    line-height: 4vh;
-    height: 4vh;
-    width: 6vw;
+    line-height: 4.5vh;
+    height: 5vh;
+    width: 7vw;
+    text-align: center;
+    padding: 0 !important;
 }
 
-a {
+#firstButton {
+    margin-left: 12vw;
+}
+
+form {
+    padding-left: 0 !important;
+}
+
+input {
+    padding-left: 0 !important;
+    margin-left: 12vw;
+    cursor: pointer;
+}
+
+#switchForm {
     color: blue;
+    padding-left: 0 !important;
+    cursor: pointer;
 }
