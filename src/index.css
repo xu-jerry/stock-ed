@@ -97,8 +97,8 @@ code {
   width: 100vw;
   margin: 0 auto;
   padding-left: 0;
-  padding-bottom: 3%;
-  padding-top: 1%;
+  padding-bottom: 0.5%;
+  padding-top: 0.5%;
 }
 
 ul * {

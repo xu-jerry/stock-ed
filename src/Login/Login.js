@@ -44,16 +44,21 @@ const Login = (props) =>{
     <div className="page">
       <h1>Welcome!</h1>
       <p>{message[0]}</p>
+      <p className="userpass"><div>Username</div></p>
       <form>
-        <p>Username</p>
+        
         <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
-        <p>Password</p>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
+        
       </form>
+      <p><div className="userpass">Password</div></p>
+      <form>
+        <input type="text" value={password} onChange={e => setPassword(e.target.value)}></input>
+      </form>
+      <br></br>
       <br></br>
       <div id="firstButton" className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
       <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
-      <br/>
+      <br/><br/>
       <span>{message[1]}<span id="switchForm" onClick={() => handleSignupClick()}>here!</span></span>
     </div>
   );
