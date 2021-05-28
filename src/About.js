@@ -1,7 +1,7 @@
 function About(props) {
     return (
       <div className="page">
-        <div className="blueBackground">
+        <div className="blueBackground topSection">
 	<h1>Our Mission</h1>
 	</div>
         <p>We know that stocks can be daunting to get into, so we wanted to create an environment that could teach students who wanted to get into stocks. StockEd is a fun, interactive web app that helps users of all ages develop financial literacy by mimicking the fluctuations of the stock market and allowing users to simulate realistic experiences in the stock market without having to suffer the potential financial consequences!</p>
