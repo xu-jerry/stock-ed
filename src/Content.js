@@ -1,6 +1,6 @@
 import React from 'react';
 import Stock from './Stock/Stock';
-import Home from './Home';
+import Home from './Home/Home';
 import Search from './Search/Search';
 import About from './About';
 import Leaderboard from './Leaderboard/Leaderboard';

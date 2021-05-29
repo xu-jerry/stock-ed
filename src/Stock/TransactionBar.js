@@ -52,10 +52,12 @@ const TitleCont = styled.div`
 const NumInput = styled.input`
     color: black;
     height: 30px;
+    margin-left: 0px;
 `
 const Form = styled.form`
     display: flex;
     flex-direction: column;
+    margin-right: 0px;
 `
 const TransactionCompleteContainer = styled.div`
     display: flex;
@@ -67,6 +69,7 @@ const TransactionBar = (props) =>{
     const [amount, setAmount] = useState(0)
     const [didTransactionComplete, setDidTransactionComplete] = useState(-1);
     const [userData, setUserData] = useState({});
+
     const handleClickMover = (a) =>{
         setDropDown(a);
         setDidTransactionComplete(-1);
@@ -90,6 +93,7 @@ const TransactionBar = (props) =>{
             return userData.stocks.hasOwnProperty(props.symbol) ? userData.stocks[props.symbol].amount : 0;
         }
     }
+    
     const moveStock = (e) => {
         e.preventDefault()
         let buying = shouldDropDown == 1 ? true : false
@@ -110,7 +114,7 @@ const TransactionBar = (props) =>{
             <GenText>Amount of shares:
             </GenText>
             <NumInput type="number" min = "0" max = {getMaxAmount()} placeholder = "0" onChange={(event)=>setAmount(event.target.value)} />
-            <input type="submit" value="Submit" />
+            <NumInput type="submit" value="Submit" />
           </Form>
         );
       }
