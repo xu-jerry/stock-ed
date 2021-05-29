@@ -1,0 +1,56 @@
+td, th {
+	padding: 1rem;
+	text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 2vh auto;
+    font-size: 80%;
+    font-family: sans-serif;
+    min-width: 300px;
+    width: 80vw;
+	padding-left: 1vw !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table * {
+	padding-left: 1vw !important;
+}
+
+table thead tr {
+    background-color: #5D80FD;
+    color: #ffffff;
+    text-align: left;
+}
+
+table thead tr th {
+    position: relative;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+}
+
+table tbody tr {
+    border-bottom: thin solid #dddddd;
+    text-align: left;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #5D80FD;
+}
+
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #5D80FD;
+}
+
+h1 {
+	padding: 0;
+}

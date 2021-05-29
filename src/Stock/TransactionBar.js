@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components'
+import { checkLoginStatus, getUserStockData, tradeStock } from '../base';
 
 const Mover = styled.button` 
     height: 50px;
@@ -65,33 +66,41 @@ const TransactionBar = (props) =>{
     const [shouldDropDown, setDropDown] = useState(-1)
     const [amount, setAmount] = useState(0)
     const [didTransactionComplete, setDidTransactionComplete] = useState(-1);
+    const [userData, setUserData] = useState({});
     const handleClickMover = (a) =>{
         setDropDown(a);
         setDidTransactionComplete(-1);
         setAmount(-1);
     };
+
+    const getUserData = async () => {
+        setUserData(await getUserStockData(await checkLoginStatus()));
+    }
+
+    React.useEffect(() => {
+        getUserData();
+    }, []);
+
     const getMaxAmount = (buying) =>{
         buying = shouldDropDown == 1 ? true : false;
-        if(buying){
-            //return amount of liquid money/current stock price
-            //we have props.price for current stock price btw
-            return 20;
+        if (buying) {
+            return Math.floor(userData.cash / parseFloat(props.price));
         }
-        else{
-            //return amount of stock owned
-            return 10;
+        else {
+            return userData.stocks.hasOwnProperty(props.symbol) ? userData.stocks[props.symbol].amount : 0;
         }
     }
     const moveStock = (e) => {
         e.preventDefault()
         let buying = shouldDropDown == 1 ? true : false
-        if(buying){
-        //implement api call to say we bough the stock!!
-         }
-        else{
-          //implement api call saying we sold the stock!!
+        if (buying) {
+            // tradeStock will return false if anything went wrong
+            tradeStock(props.symbol, parseInt(amount));
         }
-        if(amount > 0)
+        else {
+            tradeStock(props.symbol, -1 * parseInt(amount));
+        }
+        if (amount > 0)
             setDidTransactionComplete(shouldDropDown);
         setDropDown(-1);
     }

@@ -1,8 +1,7 @@
 import { React, useState } from "react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import "./Login.css";
-import jscookie from "js-cookie";
+import {createUser, signIn, checkLoginStatus} from "./../base";
 
 const Login = (props) =>{
   const history = useHistory();
@@ -10,35 +9,32 @@ const Login = (props) =>{
   const [signup, setsignup] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleHomeClick = () => {
-    history.push("/Home");
+    history.push("/home");
   }
 
-  const handleSubmitClick = () => {
-
-    axios.post("/loginauth", {
-        username: username,
-        password: password
-      }).then(res => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // Set cookie, will add expiration in the future
-        jscookie.set('user', res.data);
-        props.setLoginStatus();
-        console.log(props.origin);
-        // If the user is on the login page then redirect them to the home page
-        if (props.origin === "/login") {
-          handleHomeClick();
-        }
-      }).catch(err => {
-        // Reset input fields
-        setUsername("");
-        setPassword("");
-        // TODO: Handle login fail
-        console.log("Failed to login");
-      })
+  const handleSubmitClick = async () => {
+    if (signup) {
+      const madeUser = await createUser(username, password)
+      if (madeUser !== true) {
+        setErrorMessage(madeUser);
+      }
+    } else {
+      const signedIn = await signIn(username, password)
+      if (signedIn !== true) {
+        setErrorMessage(signedIn);
+      }
+    }
+    setUsername("");
+    setPassword("");
+    if (await checkLoginStatus()) {
+      if ((props.origin).toString().toLowerCase() === "/login") {
+        handleHomeClick();
+      }
+      props.setLoginStatus();
+    }
   }
 
   const handleSignupClick = () => {
@@ -57,15 +53,16 @@ const Login = (props) =>{
       <p>{message[0]}</p>
       <form>
         <p>Username</p>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
+        <input className={errorMessage === "" ? "" : "invalid"} type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
         <p>Password</p>
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
+        <input className={errorMessage === "" ? "" : "invalid"} type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
       </form>
       <br></br>
-      <div className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
+      <div id="firstButton" className="button loginButton" onClick={() => handleHomeClick()}>Back</div>
       <div className="button loginButton" onClick={() => handleSubmitClick()}>Submit</div>
       <br/>
-      <span>{message[1]}<a onClick={() => handleSignupClick()}>here!</a></span>
+      <span>{message[1]}<span id="switchForm" onClick={() => handleSignupClick()}>here!</span></span>
+      <div id="errorMessage" className={errorMessage === "" ? "hidden": ""}>{errorMessage}</div>
     </div>
   );
 }
