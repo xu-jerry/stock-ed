@@ -66,23 +66,28 @@ const TransactionBar = (props) =>{
     const [shouldDropDown, setDropDown] = useState(-1)
     const [amount, setAmount] = useState(0)
     const [didTransactionComplete, setDidTransactionComplete] = useState(-1);
+    const [userData, setUserData] = useState({});
     const handleClickMover = (a) =>{
         setDropDown(a);
         setDidTransactionComplete(-1);
         setAmount(-1);
     };
+
+    const getUserData = async () => {
+        setUserData(await getUserStockData(await checkLoginStatus()));
+    }
+
+    React.useEffect(() => {
+        getUserData();
+    }, []);
+
     const getMaxAmount = (buying) =>{
         buying = shouldDropDown == 1 ? true : false;
-        //const data = await getUserStockData(await checkLoginStatus());
         if (buying) {
-            //return amount of liquid money/current stock price
-            //we have props.price for current stock price btw
-            //Math.floor(data.money % props.price)
-            return 50;
+            return Math.floor(userData.cash / parseFloat(props.price));
         }
         else {
-            //data.stocks.hasOwnProperty(props.symbol) ? 0 : data.stocks[props.symbol].amount;
-            return 50;
+            return userData.stocks.hasOwnProperty(props.symbol) ? userData.stocks[props.symbol].amount : 0;
         }
     }
     const moveStock = (e) => {
