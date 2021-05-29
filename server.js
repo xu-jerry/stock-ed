@@ -5,7 +5,7 @@ const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3001;
 const yahooFinance = require('yahoo-finance');
-const leaderBoardData = [
+var leaderBoardData = [
     {id:45676543, username:"jason", accountValue: -1, todayChange: 30, overallChange: 20},
     {id:45676544, username:"jerry", accountValue: 3, todayChange: 20, overallChange: 21},
     {id:45676545, username:"arpit", accountValue: 2, todayChange: -30, overallChange: 22},

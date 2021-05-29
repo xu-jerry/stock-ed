@@ -3,19 +3,19 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {IoReload} from 'react-icons/io5';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
-
+import {getLeaderboardData} from "../base";
 function Leaderboard(props) {
   const [tableBody, setTable] = useState([]);
   const [activeFilter, setFilter] = useState("");
 
   // Request data from the server and update the table
   async function requestLeaderBoardData() {
-    let leaderBoardData = (await axios.get(`/leaderboardData`)).data; 
+    let leaderBoardData = await getLeaderboardData();
     let tempTable = [];
     for (let i = 0; i < leaderBoardData.length; i++) {
       let current = leaderBoardData[i];
-      tempTable.push(<tr username={current.username} accountvalue={current.accountValue} todaychange={current.todayChange} overallchange={current.overallChange}
-        key={current.id}><th>{current.username}</th><th>{current.accountValue}</th><th>{current.todayChange}</th><th>{current.overallChange}</th></tr>);
+      tempTable.push(<tr username={current.name} accountvalue={current.accountValue[current.accountValue.length-1]} todaychange={current.todayChange} overallchange={current.overallChange}
+        key={current.id}><th>{current.name}</th><th>{current.accountValue[current.accountValue.length-1]}</th><th>{current.todayChange}</th><th>{current.overallChange}</th></tr>);
     }
     return tempTable;
   }

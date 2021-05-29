@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc } from "firebase/firestore"; 
+import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection} from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
@@ -69,7 +69,8 @@ export function checkLoginStatus() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, function(user) {
       if (user) {
-        getUserStockData(user.uid)
+        getUserStockData(user.uid);
+        getLeaderboardData(user.uid);
         resolve(user.uid);
       } else {
         resolve(null);
@@ -132,24 +133,35 @@ export async function getUserStockData(uid) {
   });
 }
 
-/*export async function getLeaderboardData(uid) {
-  return new Promise((resolve, reject) => {
-    if (checkLoginStatus())
+export async function getLeaderboardData(uid) {
+  var data = [];
+  if (true)
     {
-        userdata = onSnapshot(doc(db, "Users", user.uid), (doc) => {
-          console.log("Current data: ", doc.data().leaderboardData);
-          resolve(doc.data().leaderboardData);
-        });
-        
+      const leaderboardData = query(collection(db, "Users"));
+      const querySnapshot = await getDocs(leaderboardData);
+      querySnapshot.forEach((doc) => {
+        if (doc.data().name != "admin@gmail.com"){
+        var userData = new UserData(doc.data().name, doc.data().accountValue, 
+        JSON.parse(doc.data().stocks), doc.data().cash, 
+        doc.data().lastLoggedIn);
+        data.push(userData);
+        console.log(userData);
+      }
+      });
     }
-    else
-    {
-      resolve(null);
-    }
-  
+    return new Promise((resolve, reject) => {
+      if (true)
+      {
+        resolve(data)
+      }
+      else
+      {
+        resolve(null);
+      }
   });
 }
-*/
+
+
 /* Trade stock attemps to sell/buy a certain amount
  * of a stock specified by the ticker. If the user is 
  * not able to buy/sell the specified amount, then return 
