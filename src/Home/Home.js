@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {useState} from 'react';
-import Headline from './Home/Headline';
+import Headline from './Headline';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 const NewsCont = styled.div`
