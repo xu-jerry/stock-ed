@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-input[type=submit], .niceButton {
+ .niceButton {
     display:inline-block;
     border:0.1em solid #FFFFFF;
     border-radius:0.12em;
@@ -62,13 +62,13 @@ input[type=submit], .niceButton {
     line-height: 1vw;
   }
 
-  input[type=submit] {
+  .submitInput{
     margin-left: 0.5vw;
     background-color:#06008B;
     color: white;
   }
 
-  input[type=submit]:hover {
+.submitInput:hover {
     background-color:#e9e9e9;
     color: #06008B;
   }

@@ -59,7 +59,7 @@ function Search() {
           <label>
             <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
           </label>
-          <input type="submit" value="Search"/>
+          <input className = "niceButton submitInput" type="submit" value="Search"/>
         </form>
         <ul style = {{ listStyleType: "none" }}>
           Results:
