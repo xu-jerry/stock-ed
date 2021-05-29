@@ -73,17 +73,23 @@ function Portfolio() {
 
     return (
 	<div className="page">
+		<div className="blueBackground topSection">
 		<h1>My Portfolio</h1>
+		</div>
 	  <p>
 	  	ACCOUNT DETAILS
 	  </p>
 	  <table>
 	    <thead>
 	      <tr>
-		<th>Total Value: {accountDetails[0]}</th>
-		<th>Cash: {accountDetails[1]}</th>
+		<th>Total Value ($)</th>
+		<th>Cash ($)</th>
 	      </tr>
 	    </thead>
+		<tbody>
+			<th>{accountDetails[0]}</th>
+			<th>{accountDetails[1]}</th>
+		</tbody>
 	  </table> 
 
 	  <hr></hr>
@@ -94,9 +100,9 @@ function Portfolio() {
 	        <th>Symbol</th>
 			<th>Company</th>
 			<th>Amount</th>
-			<th>Purchase Price</th>
-			<th>Current Price</th>
-			<th>Total Value</th> 
+			<th>Purchase Price ($)</th>
+			<th>Current Price ($)</th>
+			<th>Total Value ($)</th> 
 			<th>Total Gain/Loss</th>
 	      </tr>
 	    </thead>		

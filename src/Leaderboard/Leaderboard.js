@@ -56,7 +56,9 @@ function Leaderboard(props) {
 
   return (
     <div className="page">
+      <div className="greenBackground topSection">
       <h1>Leaderboard</h1>
+      </div>
       <p>Here are the top stats for users of StockEd.</p>
       <table className="styledTable">
         <thead>
