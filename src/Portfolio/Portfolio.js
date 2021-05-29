@@ -36,13 +36,16 @@ function Portfolio() {
      */
 
 	async function updatePortfolio() {
-		// await tradeStock("AAPL", 20);
 		const data = (await getUserStockData(await checkLoginStatus()));
 		const stocks = data.stocks;
 		let totalValue = 0;
 		const tableTemp = [];
 		
-		
+		// If the user has no stocks
+		if (Object.keys(stocks).length === 0) {
+			setAccountInfo([data.cash, data.cash]);
+			return;
+		}
 
 		for (const stock in stocks) {
 			const url = "/Stock/" + stock;

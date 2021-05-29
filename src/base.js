@@ -113,19 +113,15 @@ class UserData
 }
 export async function getUserStockData(uid) {
   return new Promise((resolve, reject) => {
-    if (true)
-    {
-      const firebaseData = onSnapshot(doc(db, "Users", uid), (doc) => {
-          var userData = new UserData(doc.data().name, doc.data().accountValue, 
+    if (true) {
+      onSnapshot(doc(db, "Users", uid), (doc) => {
+          const userData = new UserData(doc.data().name, doc.data().accountValue, 
                                   JSON.parse(doc.data().stocks), doc.data().cash, 
                                   doc.data().lastLoggedIn);
-          // console.log(userData);
           resolve(userData);
-          
       });
     }
-    else
-    {
+    else {
       resolve(null);
     }
   
@@ -169,6 +165,8 @@ export async function tradeStock(ticker, amount) {
   if (!(userData) || amount === 0) {
     return false;
   }
+
+  //console.log(userData);
 
   if (amount < 0) {
     // Handle stock selling

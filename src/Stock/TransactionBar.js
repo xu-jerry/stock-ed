@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components'
+import { checkLoginStatus, getUserStockData, tradeStock } from '../base';
 
 const Mover = styled.button` 
     height: 50px;
@@ -72,26 +73,29 @@ const TransactionBar = (props) =>{
     };
     const getMaxAmount = (buying) =>{
         buying = shouldDropDown == 1 ? true : false;
-        if(buying){
+        //const data = await getUserStockData(await checkLoginStatus());
+        if (buying) {
             //return amount of liquid money/current stock price
             //we have props.price for current stock price btw
-            return 20;
+            //Math.floor(data.money % props.price)
+            return 50;
         }
-        else{
-            //return amount of stock owned
-            return 10;
+        else {
+            //data.stocks.hasOwnProperty(props.symbol) ? 0 : data.stocks[props.symbol].amount;
+            return 50;
         }
     }
     const moveStock = (e) => {
         e.preventDefault()
         let buying = shouldDropDown == 1 ? true : false
-        if(buying){
-        //implement api call to say we bough the stock!!
-         }
-        else{
-          //implement api call saying we sold the stock!!
+        if (buying) {
+            // tradeStock will return false if anything went wrong
+            tradeStock(props.symbol, parseInt(amount));
         }
-        if(amount > 0)
+        else {
+            tradeStock(props.symbol, -1 * parseInt(amount));
+        }
+        if (amount > 0)
             setDidTransactionComplete(shouldDropDown);
         setDropDown(-1);
     }
