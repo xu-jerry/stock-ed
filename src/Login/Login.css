@@ -7,12 +7,21 @@
     padding: 0 !important;
 }
 
+.userpass {
+    padding-left: 0 !important;
+}
+
 #firstButton {
     margin-left: 12vw;
+    margin-top: 2vh;
 }
 
 form {
     padding-left: 0 !important;
+}
+
+form * {
+    padding-left: 12vw !important;
 }
 
 input {
