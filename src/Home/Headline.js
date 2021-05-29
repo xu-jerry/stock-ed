@@ -13,7 +13,7 @@ const ColCont = styled.a`
     padding-top: 10px;
     padding-bottom: 10px;
 `
-const Source = styled.text`
+const Source = styled.div`
     color: black;
     font-size: 17px;
     transition: font-size .1s;
@@ -25,7 +25,7 @@ const Source = styled.text`
     padding-left: 0px;
     font-weight:bold;   
 `
-const Title = styled.text`
+const Title = styled.div`
 color: grey;
 font-size 17px;
 transition: font-size .1s;

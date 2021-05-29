@@ -49,7 +49,7 @@
     padding-right: 36vw;
   }
 
-  input[type="text"] {
+  input[type="text"], input[type="password"] {
     width: 13vw;
     height: 4vh;
     font-size: 1vw;
@@ -61,6 +61,7 @@
     font-size: 1vw;
     line-height: 1vw;
   }
+  
 
   .submitInput{
     margin-left: 0.5vw;
