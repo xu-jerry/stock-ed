@@ -1,17 +1,22 @@
+import React from 'react';
+import { checkLoginStatus, getUserStockData} from "../base";
 import "./Portfolio.css"
+import axios from "axios";
 
 function Portfolio() {
 
     /* This data simulates the kind of data the server will return.
      * Work on using the static data first then deal with the post requests and api.
      */
-    const data = [
-        {ticker: "AAPL", companyName: "Apple", amount: 500, purchasePrice: 20, currentPrice: 32},
-        {ticker: "ABC", companyName: "Something", amount: 400, purchasePrice: 30, currentPrice: 45},
-        {ticker: "XYZ", companyName: "Something2", amount: 100, purchasePrice: 40, currentPrice: 410},
-        {ticker: "AAA", companyName: "Something3", amount: 10, purchasePrice: 50, currentPrice: 440},
-        {ticker: "TTT", companyName: "Something4", amount: 10, purchasePrice: 700, currentPrice: 450}
-    ]
+    // const data = [
+    //     {ticker: "AAPL", companyName: "Apple", amount: 500, purchasePrice: 20, currentPrice: 32},
+    //     {ticker: "ABC", companyName: "Something", amount: 400, purchasePrice: 30, currentPrice: 45},
+    //     {ticker: "XYZ", companyName: "Something2", amount: 100, purchasePrice: 40, currentPrice: 410},
+    //     {ticker: "AAA", companyName: "Something3", amount: 10, purchasePrice: 50, currentPrice: 440},
+    //     {ticker: "TTT", companyName: "Something4", amount: 10, purchasePrice: 700, currentPrice: 450}
+    // ]
+	const [accountDetails, setAccountInfo] = React.useState(["", ""]);
+	const [tableBody, setTable] = React.useState([]);
 
 
     /**
@@ -30,16 +35,41 @@ function Portfolio() {
      * Later we can make the symbol a link to the search page
      */
 
-	const tableBody = [];
-	for (const name of data) {
-		const url = "/Stock/" + name.ticker;
+	async function updatePortfolio() {
+		const data = (await getUserStockData(await checkLoginStatus()));
+		const stocks = data.stocks;
+		let totalValue = 0;
+		const tableTemp = [];
 		
-		tableBody.push(<tr><th><a href = {url}>{name.ticker}</a></th>
-			<th>{name.companyName}</th>
-			<th>{name.amount}</th>
-			<th>{name.purchasePrice}</th>
-			<th>{name.currentPrice}</th></tr>);
+		// If the user has no stocks
+		if (Object.keys(stocks).length === 0) {
+			setAccountInfo([data.cash, data.cash]);
+			return;
+		}
+
+		for (const stock in stocks) {
+			const url = "/Stock/" + stock;
+			const updatedPrice = (await axios.get("/stock", {params: {symbol: stock}})).data.price.regularMarketPrice;
+			const diff = (stocks[stock].currentValue - (updatedPrice * stocks[stock].amount));
+			tableTemp.push(<tr key={stock}><th><a href = {url}>{stock}</a></th>
+				<th>{stocks[stock].longName}</th>
+				<th>{stocks[stock].amount}</th> 			
+				<th>{(stocks[stock].currentValue / stocks[stock].amount).toFixed(2)}</th>
+				<th>{(updatedPrice).toFixed(2)}</th>
+				<th>{(stocks[stock].currentValue).toFixed(2)}</th>
+				<th>{diff}</th>
+				</tr>);
+			totalValue += (updatedPrice * stocks[stock].amount);
+		}
+
+		setAccountInfo([totalValue.toFixed(2), data.cash.toFixed(2)]);
+		setTable(tableTemp);
 	}
+
+	React.useEffect(() => {
+		updatePortfolio();
+	}, []);
+	
 
     return (
 	<div className="page">
@@ -50,8 +80,8 @@ function Portfolio() {
 	  <table>
 	    <thead>
 	      <tr>
-		<th>Total Value: </th>
-		<th>Cash: </th>
+		<th>Total Value: {accountDetails[0]}</th>
+		<th>Cash: {accountDetails[1]}</th>
 	      </tr>
 	    </thead>
 	  </table> 
@@ -64,8 +94,10 @@ function Portfolio() {
 	        <th>Symbol</th>
 			<th>Company</th>
 			<th>Amount</th>
-			<th>Purchase Price ($)</th>
-			<th>Current Price ($)</th>
+			<th>Purchase Price</th>
+			<th>Current Price</th>
+			<th>Total Value</th> 
+			<th>Total Gain/Loss</th>
 	      </tr>
 	    </thead>		
 	    <tbody>
