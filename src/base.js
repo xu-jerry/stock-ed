@@ -89,7 +89,6 @@ export async function setUserStockData(uid, userData) {
   if (!uid) {
     return false;
   }
-
   try {
     // Sync user's data on the database with updated version
     await updateDoc(doc(db, "Users", uid ), {
@@ -98,6 +97,7 @@ export async function setUserStockData(uid, userData) {
     });
     return true;
   } catch (e) {
+    console.log(e);
     return false;
   }
 }
@@ -119,7 +119,7 @@ export async function getUserStockData(uid) {
           var userData = new UserData(doc.data().name, doc.data().accountValue, 
                                   JSON.parse(doc.data().stocks), doc.data().cash, 
                                   doc.data().lastLoggedIn);
-          console.log(userData);
+          // console.log(userData);
           resolve(userData);
           
       });
@@ -159,14 +159,14 @@ export async function getUserStockData(uid) {
 export async function tradeStock(ticker, amount) {
   const uid = checkLoginStatus();
   // Tested using: userData = {cash: 100000.00, stocks: {AAPL: {amount: 2, currentValue: 250.56}}};
-  let userData = getUserStockData(await uid);
-  
-  const currentValue = amount * (await axios.get("/stock", {params: {symbol: ticker}})).data.price.regularMarketPrice;
+  const userData = await getUserStockData(await uid);
+  const stockData = (await axios.get("/stock", {params: {symbol: ticker}})).data;
+  const currentValue = amount * stockData.price.regularMarketPrice;
   /* Check that the user is logged in 
    * Also verify that the amount is a non-zero amount
    * (this should never happen)
    */
-  if (!(await userData) || amount === 0) {
+  if (!(userData) || amount === 0) {
     return false;
   }
 
@@ -198,7 +198,8 @@ export async function tradeStock(ticker, amount) {
       } else {
         userData.stocks[ticker] = {
           amount: amount,
-          currentValue: currentValue
+          currentValue: currentValue,
+          longName: stockData.price.longName
         }
       }
       userData.cash -= currentValue;
@@ -213,6 +214,5 @@ export async function tradeStock(ticker, amount) {
   // Round cash to the nearest penny
   userData.cash = parseFloat(userData.cash.toFixed(2));
 
-  console.log(userData);
-  return await setUserStockData(uid, userData);
+  return await setUserStockData(await uid, userData);
 }
