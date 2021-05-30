@@ -1,5 +1,4 @@
 import './Leaderboard.css';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {IoReload} from 'react-icons/io5';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
@@ -15,7 +14,7 @@ function Leaderboard(props) {
     for (let i = 0; i < leaderBoardData.length; i++) {
       let current = leaderBoardData[i];
       tempTable.push(<tr username={current.name} accountvalue={current.accountValue[current.accountValue.length-1]} todaychange={current.todayChange} overallchange={current.overallChange}
-        key={current.id}><th>{current.name}</th><th>{current.accountValue[current.accountValue.length-1]}</th><th>{current.todayChange}</th><th>{current.overallChange}</th></tr>);
+        key={current.name}><th>{current.name}</th><th>{current.accountValue[current.accountValue.length-1]}</th><th>{current.todayChange}</th><th>{current.overallChange}</th></tr>);
     }
     return tempTable;
   }

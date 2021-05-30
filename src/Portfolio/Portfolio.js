@@ -62,7 +62,7 @@ function Portfolio() {
 			totalValue += (updatedPrice * stocks[stock].amount);
 		}
 
-		setAccountInfo([totalValue.toFixed(2), data.cash.toFixed(2)]);
+		setAccountInfo([(totalValue + data.cash).toFixed(2), data.cash.toFixed(2)]);
 		setTable(tableTemp);
 	}
 

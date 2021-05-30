@@ -1,27 +1,17 @@
-import { initializeApp } from "firebase/app";
+
 import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection} from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
-import React from "react";
-import { last } from "cheerio/lib/api/traversing";
+import  UserData from "./UserClass.js";
 
-initializeApp({
-  apiKey: "AIzaSyBsv-j022oT9Zp7LKo_3YzyjmXZDdGh6Xk",
-  authDomain: "stocked-8d0a4.firebaseapp.com",
-  databaseURL: "https://stocked-8d0a4-default-rtdb.firebaseio.com",
-  projectId: "stocked-8d0a4",
-  storageBucket: "stocked-8d0a4.appspot.com",
-  messagingSenderId: "853171556142",
-  appId: "1:853171556142:web:b43b2cb8fe550ca17c34bf",
-  measurementId: "G-HF4SLSN9HY"
-});
 
-const db = getFirestore();
-const auth = getAuth();
+
 
 // Make a new user with provided username and password 
 export async function createUser(username, password) {
+  const db = getFirestore();
+  const auth = getAuth();
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, username, password);
     const user = userCredential.user;
@@ -43,6 +33,7 @@ export async function createUser(username, password) {
  * return false otherwise
  */
 export async function signIn(username, password) {
+  const auth = getAuth();
   try {
     await signInWithEmailAndPassword(auth, username, password);
     return true;
@@ -52,6 +43,7 @@ export async function signIn(username, password) {
 }
 
 export function logOut() {
+  const auth = getAuth();
   return new Promise((resolve, reject) => {
     signOut(auth).then(() => {
       resolve(true);
@@ -66,11 +58,10 @@ export function logOut() {
  * Return null if user is not signed and the uid if the user is signed in.
  */
 export function checkLoginStatus() {
+  const auth = getAuth();
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, function(user) {
       if (user) {
-        getUserStockData(user.uid);
-        getLeaderboardData(user.uid);
         resolve(user.uid);
       } else {
         resolve(null);
@@ -87,6 +78,7 @@ export function checkLoginStatus() {
 
 
 export async function setUserStockData(uid, userData) {
+  const db = getFirestore();
   if (!uid) {
     return false;
   }
@@ -102,58 +94,45 @@ export async function setUserStockData(uid, userData) {
     return false;
   }
 }
-class UserData
-{
-  constructor (name, accountValue, stocks, cash, lastLoggedIn) {
-    this.name = name;
-    this.accountValue = accountValue;
-    this.stocks = stocks;
-    this.cash = cash;
-    this.lastLoggedIn = lastLoggedIn;
-  }
-}
 export async function getUserStockData(uid) {
+  const db = getFirestore();
+  if (!(await checkLoginStatus())) {
+    return null;
+  }
   return new Promise((resolve, reject) => {
-    if (true) {
       onSnapshot(doc(db, "Users", uid), (doc) => {
           const userData = new UserData(doc.data().name, doc.data().accountValue, 
                                   JSON.parse(doc.data().stocks), doc.data().cash, 
                                   doc.data().lastLoggedIn);
           resolve(userData);
       });
-    }
-    else {
-      resolve(null);
-    }
-  
   });
 }
 
-export async function getLeaderboardData(uid) {
+export async function getLeaderboardData() {
+
+  const db = getFirestore();
   var data = [];
-  if (true)
+  let userData = null;
+  if (await checkLoginStatus())
     {
       const leaderboardData = query(collection(db, "Users"));
       const querySnapshot = await getDocs(leaderboardData);
-      querySnapshot.forEach((doc) => {
-        if (doc.data().name != "admin@gmail.com"){
-        var userData = new UserData(doc.data().name, doc.data().accountValue, 
+      querySnapshot.forEach(async (doc) => {
+        
+        userData = new UserData(doc.data().name, doc.data().accountValue, 
         JSON.parse(doc.data().stocks), doc.data().cash, 
         doc.data().lastLoggedIn);
         data.push(userData);
-        console.log(userData);
-      }
+      
       });
     }
+    else
+    {
+      return null;
+    }
     return new Promise((resolve, reject) => {
-      if (true)
-      {
-        resolve(data)
-      }
-      else
-      {
-        resolve(null);
-      }
+        resolve(data);
   });
 }
 
