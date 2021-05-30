@@ -1,12 +1,8 @@
-
 import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection} from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
-import  UserData from "./UserClass.js";
-
-
-
+import  UserData from "./baseUtils.js";
 
 // Make a new user with provided username and password 
 export async function createUser(username, password) {
@@ -27,7 +23,6 @@ export async function createUser(username, password) {
     return error.message;
   }
 }
-
 
 /* Return true if the user successfully signed in, 
  * return false otherwise
@@ -74,9 +69,6 @@ export function checkLoginStatus() {
  * before to make sure they're logged in before showing the stock data
  * for the getUserStockData and getLeaderboardData
  */
-
-
-
 export async function setUserStockData(uid, userData) {
   const db = getFirestore();
   if (!uid) {
@@ -94,6 +86,7 @@ export async function setUserStockData(uid, userData) {
     return false;
   }
 }
+
 export async function getUserStockData(uid) {
   const db = getFirestore();
   if (!(await checkLoginStatus())) {
@@ -110,54 +103,49 @@ export async function getUserStockData(uid) {
 }
 
 export async function getLeaderboardData() {
-
   const db = getFirestore();
   var data = [];
   let userData = null;
-  if (await checkLoginStatus())
-    {
-      const leaderboardData = query(collection(db, "Users"));
-      const querySnapshot = await getDocs(leaderboardData);
-      querySnapshot.forEach(async (doc) => {
-        
-        userData = new UserData(doc.data().name, doc.data().accountValue, 
-        JSON.parse(doc.data().stocks), doc.data().cash, 
-        doc.data().lastLoggedIn);
-        data.push(userData);
+  if (await checkLoginStatus()) {
+    const leaderboardData = query(collection(db, "Users"));
+    const querySnapshot = await getDocs(leaderboardData);
+    querySnapshot.forEach(async (doc) => {
       
-      });
-    }
-    else
-    {
-      return null;
-    }
-    return new Promise((resolve, reject) => {
-        resolve(data);
+      userData = new UserData(doc.data().name, doc.data().accountValue, 
+      JSON.parse(doc.data().stocks), doc.data().cash, 
+      doc.data().lastLoggedIn);
+      data.push(userData);
+    
+    });
+  } else {
+    return null;
+  }
+
+  return new Promise((resolve, reject) => {
+    resolve(data);
   });
 }
-
 
 /* Trade stock attemps to sell/buy a certain amount
  * of a stock specified by the ticker. If the user is 
  * not able to buy/sell the specified amount, then return 
  * false. Only valid tickers can reach the sell/buy menu
 */
-
 export async function tradeStock(ticker, amount) {
+
   const uid = checkLoginStatus();
-  // Tested using: userData = {cash: 100000.00, stocks: {AAPL: {amount: 2, currentValue: 250.56}}};
   const userData = await getUserStockData(await uid);
+
+  if (!(userData) || amount === 0) {
+    return false;
+  }
+
   const stockData = (await axios.get("/stock", {params: {symbol: ticker}})).data;
   const currentValue = amount * stockData.price.regularMarketPrice;
   /* Check that the user is logged in 
    * Also verify that the amount is a non-zero amount
    * (this should never happen)
    */
-  if (!(userData) || amount === 0) {
-    return false;
-  }
-
-  //console.log(userData);
 
   if (amount < 0) {
     // Handle stock selling
@@ -202,6 +190,5 @@ export async function tradeStock(ticker, amount) {
 
   // Round cash to the nearest penny
   userData.cash = parseFloat(userData.cash.toFixed(2));
-
   return await setUserStockData(await uid, userData);
 }

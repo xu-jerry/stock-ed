@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Content from "./Content"
-import { initializeFirebase } from './UserClass';
+import { initializeFirebase } from './baseUtils';
 
 ReactDOM.render(
   <Content/>,
