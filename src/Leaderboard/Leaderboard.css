@@ -6,6 +6,7 @@
     min-width: 300px;
     width: 80vw;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family:'Poppins',sans-serif;
 }
 
 .styledTable thead tr {
@@ -62,7 +63,9 @@
 }
 
 .activeFilter {
-    border-bottom: thin solid blue;
+    -webkit-box-shadow:inset 0vw -3vh 2vh -2vw white;
+    -moz-box-shadow:inset 0vw -3vh 2vh -2vw white;
+    box-shadow:inset 0vw -3vh 0.8vh -2vw white;
 }
 
 .greenBackground{
@@ -73,7 +76,7 @@
     padding-left: 0;
     padding-bottom: 0.5%;
     padding-top: 0.5%;
-  }
-  .topSection {
+}
+.topSection {
     margin-top: 1.4vh;
-  }
+}
