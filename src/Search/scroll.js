@@ -3,7 +3,7 @@ import "./scroll.css";
 
 function Scroll(props) {
 
-    const [isBottom, setIsBottom] = React.useState(false);
+    //const [isBottom, setIsBottom] = React.useState(false);
     const [state, setDisplayStocks] = React.useState({
         page: 0,
         stocksToDisplay: props.stocks.slice(0, 63),
