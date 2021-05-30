@@ -53,9 +53,7 @@ function Portfolio() {
 			<div className="blueBackground topSection">
 				<h1>My Portfolio</h1>
 			</div>
-			<p>
-				ACCOUNT DETAILS
-			</p>
+			<p>Account Details</p>
 			<table>
 				<thead>
 					<tr>
@@ -65,7 +63,7 @@ function Portfolio() {
 				</thead>
 			</table> 
 			<hr></hr>
-			<p>ORDER STOCK</p>
+			<p>Order Stock</p>
 			<table>
 				<thead>
 					<tr>

@@ -7,9 +7,6 @@
 
 .Search {
   padding-left: 0;
-  position: absolute;
-  top: 420px;
-  left: 330px;
 }
 
 .results-list {
@@ -55,6 +52,10 @@
     padding-left: 0 !important;
     margin-left: 0;
   }
+  
+  .results {
+    padding-left: 0 !important;
+  }
 
   ul {
     padding-right: 36vw;
@@ -66,6 +67,7 @@
     font-size: 1vw;
     line-height: 1vw;
     display: inline-block;
+    cursor: text;
   }
 
   input[type="text"]::placeholder {

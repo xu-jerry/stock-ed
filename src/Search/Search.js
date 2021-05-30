@@ -59,13 +59,10 @@ function Search() {
       <p> Search for your favorite stock, or click on any of the popular stocks down below to see their recent fluctuations in price! </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
-          <label>
             <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
-          </label>
           <input className = "niceButton submitInput" type="submit" value="Search"/>
         </form>
       </div>
-      <br></br>
       <br></br>
       <div className = "results">
         <div style = {{fontWeight: "bold"}}> {searchResults.length == 0 ? " " : "Results: "} </div> 
@@ -75,6 +72,8 @@ function Search() {
             ))}
         </ul>
       </div>
+      <br></br>
+      <br></br>
       <br></br>
       <br></br>
       <h1>Popular Stocks</h1>
