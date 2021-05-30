@@ -1,8 +1,9 @@
 import './Leaderboard.css';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import {IoReload} from 'react-icons/io5';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
+import {getLeaderboardData} from "../base";
+import { formatNumbers } from '../baseUtils';
 
 function Leaderboard(props) {
   const [tableBody, setTable] = useState([]);
@@ -10,23 +11,28 @@ function Leaderboard(props) {
 
   // Request data from the server and update the table
   async function requestLeaderBoardData() {
-    let leaderBoardData = (await axios.get(`/leaderboardData`)).data; 
+    let leaderBoardData = await getLeaderboardData();
     let tempTable = [];
     for (let i = 0; i < leaderBoardData.length; i++) {
-      let current = leaderBoardData[i];
-      tempTable.push(<tr username={current.username} accountvalue={current.accountValue} todaychange={current.todayChange} overallchange={current.overallChange}
-        key={current.id}><th>{current.username}</th><th>{current.accountValue}</th><th>{current.todayChange}</th><th>{current.overallChange}</th></tr>);
+      const current = leaderBoardData[i];
+      let accountValueLen = current.accountValue.length;
+      const todaysChange = accountValueLen > 1 ? current.accountValue[accountValueLen - 2] - current.accountValue[accountValueLen - 1]: 0;
+
+      tempTable.push(<tr username={current.name} accountvalue={current.accountValue[accountValueLen - 1]} 
+        todaychange={current.todayChange} overallchange={current.overallChange} key={current.name}>
+        <th>{current.name}</th><th>{formatNumbers(current.accountValue[accountValueLen - 1])}</th><th>{todaysChange}</th><th>
+        {((current.accountValue[accountValueLen - 1] - 100000) / 100000 * 100).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "%"}</th></tr>);
     }
     return tempTable;
   }
 
   // Arrange rows based on current filter and the specified direction
-  function filterTable(filterProp, isGreater) {
+  function filterTable(filterProp, isGreater, tableData) {
     /* Change the filter to be the filter + the opposite of the current direction
      * so that the next press of the same option will flip the filter direction
      */
     setFilter(filterProp + !isGreater);
-    let temp = tableBody;
+    let temp = tableData;
     temp.sort((a, b) => {
       let aVal = a.props[filterProp];
       let bVal = b.props[filterProp];
@@ -48,11 +54,8 @@ function Leaderboard(props) {
 
   useEffect(() => {
     // On page load, request data from the server and fill in the table
-    requestLeaderBoardData()
-    .then(data =>
-      setTable(data)
-    );
-   }, [])
+    requestLeaderBoardData().then(data => filterTable("accountvalue", true, data));
+  }, []);
 
   return (
     <div className="page">
@@ -66,25 +69,25 @@ function Leaderboard(props) {
             <th className={(activeFilter === "usernametrue" || activeFilter === "usernamefalse") ? "activeFilter" : ""}>
               Username
               <button className="filter" onClick={() => 
-                filterTable("username", activeFilter === "usernametrue")}>
+                filterTable("username", activeFilter === "usernametrue", tableBody)}>
                 {activeFilter === "usernametrue" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
             </th>
             <th className={(activeFilter === "accountvaluetrue" || activeFilter === "accountvaluefalse") ? "activeFilter" : ""}>
               Account Value
               <button className="filter" onClick={() => 
-                filterTable("accountvalue", activeFilter !== "accountvaluefalse")}>
+                filterTable("accountvalue", activeFilter !== "accountvaluefalse", tableBody)}>
                 {activeFilter === "accountvaluefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
             </th>
             <th className={(activeFilter === "todaychangetrue" || activeFilter === "todaychangefalse") ? "activeFilter" : ""}>
               Today's Change in Value
               <button className="filter" onClick={() => 
-                filterTable("todaychange", activeFilter !== "todaychangefalse")}>
+                filterTable("todaychange", activeFilter !== "todaychangefalse", tableBody)}>
                 {activeFilter === "todaychangefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
             </th>
             <th className={(activeFilter === "overallchangetrue" || activeFilter === "overallchangefalse") ? "activeFilter" : ""}>
               Overall Change in Value
               <button className="filter" onClick={() => 
-                filterTable("overallchange", activeFilter !== "overallchangefalse")}>
+                filterTable("overallchange", activeFilter !== "overallchangefalse", tableBody)}>
                 {activeFilter === "overallchangefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
               <button className="reload" onClick={() => requestLeaderBoardData().then(data => setTable(data))}><IoReload/></button>
             </th>
