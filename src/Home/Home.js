@@ -17,7 +17,7 @@ const NewsCont = styled.div`
 const Title = styled.h2`
   font-size: 25px;
 `
-const Body = styled.text`
+const Body = styled.div`
   font-size: 20px;
 `
 const StyledLink = styled(Link)`
