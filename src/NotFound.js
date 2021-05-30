@@ -6,9 +6,12 @@ function NotFound(props) {
         history.goBack()
     }
     return (
-        <div className="page" style = {{textAlign : "center"}}>
+        <div className="page">
+            <div className="redBackground topSection">
+                <h1>Page Not Found</h1>
+            </div>
             <p>Oops, we can't seem to find the page you're looking for.</p>
-            <button type = "button" onClick = {goBack}> Go Back </button>
+            <div className="backButton" onClick={goBack}>Back</div>
         </div>
     );
 }
