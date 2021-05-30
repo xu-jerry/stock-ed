@@ -10,13 +10,13 @@ To run StockEd, here are the steps you should take.
 3. Next, run `npm start`.
 4. In a different terminal, run `npm run dev` in the same folder.
 
-Now, your website should be visible at http://localhost:3000. Check out the about page, create an account and log in to see more of the features! Congrats on taking the first step to greater financial literacy.
+Now, your website should be visible at http://localhost:3000. Check out the about page, create an account and log in to see more of the features! Congrats on taking your first step to greater financial literacy.
 
 # Contributors
-Thank you to the following for creating this project:
-[Jason Tay](https://github.com/jason2020)
-[Kevin Wang](https://github.com/kwang1083)
-[Arpit Jalan](https://github.com/arpitjalan18)
-[James Guo](https://github.com/jamesg6197)
-[Annie Wang](https://github.com/anicawang)
+Thank you to the following for creating this project:  
+[Jason Tay](https://github.com/jason2020)  
+[Kevin Wang](https://github.com/kwang1083)  
+[Arpit Jalan](https://github.com/arpitjalan18)  
+[James Guo](https://github.com/jamesg6197)  
+[Annie Wang](https://github.com/anicawang)  
 [Jerry Xu](https://github.com/xu-jerry)
