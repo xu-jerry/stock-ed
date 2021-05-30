@@ -42,7 +42,7 @@
     color: #5D80FD;
 }
 
-.reload {
+#reload {
     position: absolute;
     right: 0;
     min-width: 25px;
@@ -50,10 +50,12 @@
     bottom: 0;
     background-color: #5D80FD;
     border: none;
+    vertical-align: middle;
+    color: white;
 }
 
-.reload:hover {
-    border: thin solid white;
+#reload:hover {
+    font-size: 1.2vw;
 }
 
 .filter {
@@ -63,9 +65,12 @@
 }
 
 .activeFilter {
-    -webkit-box-shadow:inset 0vw -3vh 2vh -2vw white;
+    -webkit-box-shadow: inset 0 -0.2vh 0 white;
+    -moz-box-shadow: inset 0 -0.2vh 0 white;
+    box-shadow: inset 0 -0.2vh 0 white;
+    /* -webkit-box-shadow:inset 0vw -3vh 2vh -2vw white;
     -moz-box-shadow:inset 0vw -3vh 2vh -2vw white;
-    box-shadow:inset 0vw -3vh 0.8vh -2vw white;
+    box-shadow:inset 0vw -3vh 0.8vh -2vw white; */
 }
 
 .greenBackground{

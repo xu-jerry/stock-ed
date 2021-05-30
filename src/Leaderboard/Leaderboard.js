@@ -37,7 +37,7 @@ function Leaderboard(props) {
       let aVal = a.props[filterProp];
       let bVal = b.props[filterProp];
       if (aVal < bVal) {
-        return 1
+        return 1;
       } else if (aVal > bVal) {
         return -1;
       } else {
@@ -89,7 +89,7 @@ function Leaderboard(props) {
               <button className="filter" onClick={() => 
                 filterTable("overallchange", activeFilter !== "overallchangefalse", tableBody)}>
                 {activeFilter === "overallchangefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
-              <button className="reload" onClick={() => requestLeaderBoardData().then(data => setTable(data))}><IoReload/></button>
+              <button id="reload" onClick={() => requestLeaderBoardData().then(data => filterTable("accountvalue", true, data))}><IoReload/></button>
             </th>
           </tr>
         </thead>
