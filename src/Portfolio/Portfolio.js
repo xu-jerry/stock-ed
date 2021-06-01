@@ -28,14 +28,14 @@ function Portfolio() {
 		for (const stock in stocks) {
 			const url = "/Stock/" + stock;
 			const updatedPrice = (await axios.get("/stock", {params: {symbol: stock}})).data.price.regularMarketPrice;
-			const diff = (stocks[stock].currentValue - (updatedPrice * stocks[stock].amount));
+			const diff = updatedPrice * stocks[stock].amount - stocks[stock].currentValue;
 			tableTemp.push(<tr key={stock}><th><a href = {url}>{stock}</a></th>
 				<th>{stocks[stock].longName}</th>
 				<th>{stocks[stock].amount.toLocaleString()}</th> 			
 				<th>{formatNumbers(stocks[stock].currentValue / stocks[stock].amount)}</th>
 				<th>{formatNumbers(updatedPrice)}</th>
-				<th>{formatNumbers(stocks[stock].currentValue)}</th>
-				<th>{diff}</th>
+				<th>{formatNumbers(updatedPrice * stocks[stock].amount)}</th>
+				<th className={diff > 0 ? "greenText" : diff < 0 ? "redText" : ""}>{(diff > 0 ? "+" : "") + formatNumbers(diff)}</th>
 				</tr>);
 			totalValue += (updatedPrice * stocks[stock].amount);
 		}
