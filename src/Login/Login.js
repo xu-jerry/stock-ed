@@ -49,7 +49,9 @@ const Login = (props) =>{
 
   return (
     <div className="page">
+      <div className="blueBackground topSection">
       <h1>Welcome!</h1>
+      </div>
       <p>{message[0]}</p>
       <form>
         <p>Username</p>

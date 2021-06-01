@@ -9,7 +9,8 @@ const popularStocks = ["AAL", "AAPL", "ABEV", "AMC", "AMD", "AMZN", "AR", "ARKK"
  "JD", "JPM", "KGC", "KMI", "KO", "LUMN", "M", "MARA", "MGNI", "MRK", "MRO", "MSFT", "MU", "NCLH", "NIO", "NOK", "NQ=F", 
  "NVAX", "OPEN", "ORCL", "OXY", "PBR", "PDD", "PFE", "PINS", "PLTR", "PLUG", "PTON", "QCOM", "QQQ", "RBLX", "RIG", "RIOT", 
  "RKT", "SIRI", "SKLZ", "SLB", "SNAP", "SPCE", "SQ", "SWN", "T", "TDOC", "TLRY", "TME", "TSLA", "TSM", "TTD", "TWTR", "U", 
- "UAL", "VEON", "VIAC", "VIPS", "VTRS", "VZ", "WFC", "WYNN", "X", "XOM", "XPEV", "ZNGA", "^IXIC"];
+ "UAL", "VEON", "VIAC", "VIPS", "VTRS", "VZ", "WFC", "WYNN", "X", "XOM", "XPEV", "ZNGA", "^IXIC", "GOOGL", "GOOG", "NVDA", "DAC",
+ "KIRK", "AMTX", "CMBM", "RFP", "RCON", "BGFV", "HOV", "RRD", "JYNT", "NTP", "SPLP", "RICK", "UAN", "TGLS", "TGB", "EGLX"];
 
 function Search() {
   const [searchStock, setSearchStock] = React.useState("");
@@ -52,25 +53,33 @@ function Search() {
   return (
     <>
     <div className="page">
+      <div className="orangeBackground topSection">
       <h1>Search</h1>
+      </div>
       <p> Search for your favorite stock, or click on any of the popular stocks down below to see their recent fluctuations in price! </p>
       <div className = "Search">
         <form onSubmit={handleSubmit}>
-          <label>
             <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
-          </label>
           <input className = "niceButton submitInput" type="submit" value="Search"/>
         </form>
-        <ul style = {{ listStyleType: "none" }}>
-          Results:
-          {searchResults.map(item => (
-            <li key = {item}> <button className="niceButton" onClick = {() => goToPage(item)}> {item} </button></li>
-          ))}
+      </div>
+      <br></br>
+      <div className = "results">
+        <div style = {{fontWeight: "bold"}}> {searchResults.length == 0 ? " " : "Results: "} </div> 
+        <ul className = "results-list" style = {{ listStyleType: "none" }}>
+            {searchResults.map(item => (
+              <li  key = {item}> <button className="niceButton" onClick = {() => goToPage(item)}> {item} </button></li>
+            ))}
         </ul>
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <h1>Popular Stocks</h1>
-      </div>
-      <div className = "Main-Page">
+    </div>
+    
+    <div className = "Main-Page">
       <div className = "scroll"> 
             <Scroll stocks = {popularStocks} goToPage = {goToPage}>  </Scroll>
       </div>

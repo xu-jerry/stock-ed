@@ -3,7 +3,13 @@ import { checkLoginStatus, getUserStockData} from "../base";
 import "./Portfolio.css"
 import axios from "axios";
 import { formatNumbers } from '../baseUtils';
-
+import Spinner from '../components/Spinner';
+import styled from 'styled-components';
+const CenterSpinner = styled(Spinner)`
+	position: absolute;
+	top: 80vh;
+	left: 47vw;	
+`
 function Portfolio() {
 
     /* This data simulates the kind of data the server will return.
@@ -12,7 +18,7 @@ function Portfolio() {
 
 	const [accountDetails, setAccountInfo] = React.useState(["", ""]);
 	const [tableBody, setTable] = React.useState([]);
-
+	const [isLoading, setIsLoading] = React.useState(true)
 	async function updatePortfolio() {
 		const data = (await getUserStockData(await checkLoginStatus()));
 		const stocks = data.stocks;
@@ -28,32 +34,32 @@ function Portfolio() {
 		for (const stock in stocks) {
 			const url = "/Stock/" + stock;
 			const updatedPrice = (await axios.get("/stock", {params: {symbol: stock}})).data.price.regularMarketPrice;
-			const diff = (stocks[stock].currentValue - (updatedPrice * stocks[stock].amount));
+			const diff = updatedPrice * stocks[stock].amount - stocks[stock].currentValue;
 			tableTemp.push(<tr key={stock}><th><a href = {url}>{stock}</a></th>
 				<th>{stocks[stock].longName}</th>
 				<th>{stocks[stock].amount.toLocaleString()}</th> 			
 				<th>{formatNumbers(stocks[stock].currentValue / stocks[stock].amount)}</th>
 				<th>{formatNumbers(updatedPrice)}</th>
-				<th>{formatNumbers(stocks[stock].currentValue)}</th>
-				<th>{diff}</th>
+				<th>{formatNumbers(updatedPrice * stocks[stock].amount)}</th>
+				<th className={diff > 0 ? "greenText" : diff < 0 ? "redText" : ""}>{(diff > 0 ? "+" : "") + formatNumbers(diff)}</th>
 				</tr>);
 			totalValue += (updatedPrice * stocks[stock].amount);
 		}
 
 		setAccountInfo([formatNumbers(totalValue + data.cash), formatNumbers(data.cash)]);
 		setTable(tableTemp);
+		setIsLoading(false)
 	}
 
 	React.useEffect(() => {
 		updatePortfolio();
+		setIsLoading(true)
 	}, []);
 	
-	return (
-		<div className="page">
-			<h1>My Portfolio</h1>
-			<p>
-				ACCOUNT DETAILS
-			</p>
+	const getTables = () => {
+		return(
+		<>
+			<p>Account Details</p>
 			<table>
 				<thead>
 					<tr>
@@ -63,7 +69,7 @@ function Portfolio() {
 				</thead>
 			</table> 
 			<hr></hr>
-			<p>ORDER STOCK</p>
+			<p>Order Stock</p>
 			<table>
 				<thead>
 					<tr>
@@ -80,6 +86,15 @@ function Portfolio() {
 					{tableBody}
 				</tbody>
 			</table> 
+		</>
+		)
+	}
+	return (
+		<div className="page">
+			<div className="blueBackground topSection">
+				<h1>My Portfolio</h1>
+			</div>
+			{isLoading ? <CenterSpinner></CenterSpinner> : getTables()}
 		</div>
 	)
 }

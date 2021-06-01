@@ -12,6 +12,7 @@ table {
     width: 80vw;
 	padding-left: 1vw !important;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family:'Poppins',sans-serif;
 }
 
 table * {
@@ -53,4 +54,12 @@ table tbody tr.active-row {
 
 h1 {
 	padding: 0;
+}
+
+.greenText {
+    color: green;
+}
+
+.redText {
+    color: red;
 }

@@ -17,8 +17,8 @@ const GraphContainer = styled.div`
 
 const Graph = React.memo(({ isLoading, stock, today }) => {
   
-   console.log(stock)
-   console.log(today)
+  // console.log(stock)
+  // console.log(today)
   const data = {
     labels: getLabels(stock, today),
     datasets: [

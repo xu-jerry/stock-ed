@@ -31,7 +31,7 @@ const useStockData = (symbol) => {
           toDate: currDate.toISOString().substring(0,10)
         }
       });
-      if(!currData.data){
+      if(!currData.data || !currData.data.summaryDetail){
           setIsValidTicker(false)
       }
       else{

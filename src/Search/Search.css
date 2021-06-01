@@ -7,11 +7,19 @@
 
 .Search {
   padding-left: 0;
-  text-align: center;
+}
+
+.results-list {
+  display: inline-flex;
+  position: absolute;
+}
+
+.results {
+  display: inline-block;
 }
 
  .niceButton {
-    display:inline-block;
+    display: inline-block;
     border:0.1em solid #FFFFFF;
     border-radius:0.12em;
     box-sizing: border-box;
@@ -44,6 +52,10 @@
     padding-left: 0 !important;
     margin-left: 0;
   }
+  
+  .results {
+    padding-left: 0 !important;
+  }
 
   ul {
     padding-right: 36vw;
@@ -55,6 +67,7 @@
     font-size: 1vw;
     line-height: 1vw;
     display: inline-block;
+    cursor: text;
   }
 
   input[type="text"]::placeholder {
