@@ -1,4 +1,4 @@
-import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection} from "firebase/firestore"; 
+import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection, getDoc} from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
@@ -16,7 +16,7 @@ export async function createUser(username, password) {
       accountValue: [100000],
       stocks: "{}",
       cash: 100000,
-      lastLoggedIn: Timestamp.now()
+      usersTimestamp: Timestamp.now()
     });
     return true;
   } catch(error) {
@@ -96,7 +96,7 @@ export async function getUserStockData(uid) {
       onSnapshot(doc(db, "Users", uid), (doc) => {
           const userData = new UserData(doc.data().name, doc.data().accountValue, 
                                   JSON.parse(doc.data().stocks), doc.data().cash, 
-                                  doc.data().lastLoggedIn);
+                                  doc.data().usersTimestamp);
           resolve(userData);
       });
   });
@@ -109,22 +109,49 @@ export async function getLeaderboardData() {
   if (await checkLoginStatus()) {
     const leaderboardData = query(collection(db, "Users"));
     const querySnapshot = await getDocs(leaderboardData);
-    querySnapshot.forEach(async (doc) => {
-      
+    querySnapshot.forEach((doc) => {
       userData = new UserData(doc.data().name, doc.data().accountValue, 
-      JSON.parse(doc.data().stocks), doc.data().cash, 
-      doc.data().lastLoggedIn);
+       JSON.parse(doc.data().stocks), doc.data().cash, doc.data().usersTimestamp);
       data.push(userData);
-    
     });
   } else {
     return null;
   }
+  return data;
+}
 
-  return new Promise((resolve, reject) => {
-    resolve(data);
+export async function updateAllUsers() {
+  const db = getFirestore();
+  
+  const leaderboardData = query(collection(db, "Users"));
+  const querySnapshot = await getDocs(leaderboardData);
+  await querySnapshot.forEach(async (document) => {
+    const userData = new UserData(document.data().name, document.data().accountValue, 
+      JSON.parse(document.data().stocks), document.data().cash, document.data().usersTimestamp);
+    const lastRecordedDay = userData.usersTimestamp.toDate().getUTCDate();
+    const currentDate = new Date();
+    /* Update the stocks if it has not been updated that day,
+     * while making sure to do it only after the NYSE has closed
+     */ 
+    console.log(document.data())
+    if (currentDate.getUTCHours() >= 17 && lastRecordedDay != currentDate.getUTCDate()) {
+
+      let updatedTotal = userData.cash;
+
+      for (const stock in userData.stocks) {
+        const updatedPrice = (await axios.get("/stock", {params: {symbol: stock}})).data.price.regularMarketPrice;
+        updatedTotal += updatedPrice * userData.stocks[stock].amount;
+      }
+      
+      userData.accountValue.push(updatedTotal);
+      userData.usersTimestamp = Timestamp.now();
+      
+      updateDoc(doc(db, "Users", document.id), {accountValue: userData.accountValue, usersTimestamp: userData.usersTimestamp});
+    }
+    
   });
 }
+
 
 /* Trade stock attemps to sell/buy a certain amount
  * of a stock specified by the ticker. If the user is 

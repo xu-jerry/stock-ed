@@ -2,7 +2,7 @@ import './Leaderboard.css';
 import { useState, useEffect } from 'react';
 import {IoReload} from 'react-icons/io5';
 import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
-import {getLeaderboardData} from "../base";
+import {getLeaderboardData, updateAllUsers} from "../base";
 import { formatNumbers } from '../baseUtils';
 
 function Leaderboard(props) {
@@ -20,7 +20,7 @@ function Leaderboard(props) {
 
       tempTable.push(<tr username={current.name} accountvalue={current.accountValue[accountValueLen - 1]} 
         todaychange={current.todayChange} overallchange={current.overallChange} key={current.name}>
-        <th>{current.name}</th><th>{formatNumbers(current.accountValue[accountValueLen - 1])}</th><th>{todaysChange}</th><th>
+        <th>{current.name}</th><th>{formatNumbers(current.accountValue[accountValueLen - 1])}</th><th>{formatNumbers(todaysChange)}</th><th>
         {((current.accountValue[accountValueLen - 1] - 100000) / 100000 * 100).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "%"}</th></tr>);
     }
     return tempTable;
@@ -53,6 +53,7 @@ function Leaderboard(props) {
   }
 
   useEffect(() => {
+    updateAllUsers();
     // On page load, request data from the server and fill in the table
     requestLeaderBoardData().then(data => filterTable("accountvalue", true, data));
   }, []);

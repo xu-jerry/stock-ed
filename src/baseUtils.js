@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 export default class UserData {
-  constructor (name, accountValue, stocks, cash, lastLoggedIn) {
+  constructor (name, accountValue, stocks, cash, usersTimestamp) {
     this.name = name;
     this.accountValue = accountValue;
     this.stocks = stocks;
     this.cash = cash;
-    this.lastLoggedIn = lastLoggedIn;
+    this.usersTimestamp = usersTimestamp;
   }
 }
 
