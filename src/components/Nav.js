@@ -39,8 +39,8 @@ const Navbar = (props) => {
           <button className="button" onClick={() => handleHomeClick()}>Home</button>
           <button className="button" onClick={() => handlePortfolioClick()}>Portfolio</button>
           <button className="button" onClick={() => handleLeaderboardClick()}>Leaderboard</button>
-          <button className="button" onClick={() => handleAboutClick()}>About</button>
           <button className="button" onClick={() => handleSearchClick()}>Search</button>
+          <button className="button" onClick={() => handleAboutClick()}>About</button>
           <button className="button" onClick={() => props.loggedIn ? logout() : handleLoginClick()}>{props.loggedIn ? "Signout" : "Login"}</button>
         </div>
     </div>
