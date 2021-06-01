@@ -21,6 +21,7 @@ const GenText = styled.h6`
 	text-align: center;
 	font-weight:normal;
 	margin: 0px;
+	padding-left: 0px !important;
 `
 const ButtonCont = styled.div`
 	padding-bottom: 20px;
@@ -70,8 +71,14 @@ const TransactionBar = (props) =>{
 
 	const handleClickMover = (a) =>{
 		setDropDown(a);
-		setDidTransactionComplete(-1);
-		setAmount(-1);
+		if(getMaxAmountWithParam(a) < 1){
+			setDidTransactionComplete(a+2)
+			setDropDown(-1)
+		}
+		else{
+			setDidTransactionComplete(-1)
+			setAmount(-1)
+		}
 	};
 
 	const getUserData = async () => {
@@ -82,13 +89,31 @@ const TransactionBar = (props) =>{
 		getUserData();
 	}, []);
 
-	const getMaxAmount = (buying) =>{
-		buying = shouldDropDown == 1 ? true : false;
+	const getMaxAmountWithParam = (a) =>{
+		let buying = a == 1 ? true : false;
 		if (buying) {
 				return Math.floor(userData.cash / parseFloat(props.price));
 		}
 		else {
-				return userData.stocks.hasOwnProperty(props.symbol) ? userData.stocks[props.symbol].amount : 0;
+				return userData.stocks.hasOwnProperty(props.symbol.toUpperCase()) ? userData.stocks[props.symbol.toUpperCase()].amount : 0;
+		}
+	}
+	const getMaxAmount = () =>{
+		let buying = shouldDropDown == 1 ? true : false;
+		if (buying) {
+				return Math.floor(userData.cash / parseFloat(props.price));
+		}
+		else {
+				return userData.stocks.hasOwnProperty(props.symbol.toUpperCase()) ? userData.stocks[props.symbol.toUpperCase()].amount : 0;
+		}
+	}
+	const getPlaceholder = () => {
+		let buying = shouldDropDown == 1 ? true : false;
+		if (buying) {
+				return "You can afford " + getMaxAmount() + " shares";
+		}
+		else {
+				return "You own " + getMaxAmount() + " shares";
 		}
 	}
 	
@@ -97,22 +122,43 @@ const TransactionBar = (props) =>{
 		let buying = shouldDropDown == 1 ? true : false
 		if (buying) {
 				// tradeStock will return false if anything went wrong
-				tradeStock(props.symbol, parseInt(amount));
+				tradeStock(props.symbol.toUpperCase(), parseInt(amount));
+				getUserData();
 		}
 		else {
-				tradeStock(props.symbol, -1 * parseInt(amount));
+				tradeStock(props.symbol.toUpperCase(), -1 * parseInt(amount));
 		}
 		if (amount > 0)
 				setDidTransactionComplete(shouldDropDown);
 		setDropDown(-1);
 	}
 
+	const successText = () => {
+		if(didTransactionComplete == 1){
+			getUserData()
+			return "Congrats, you successfully bought " + amount + " share(s) of " + props.symbol.toUpperCase() + "!"
+		}
+		if(didTransactionComplete == 0){
+			getUserData()
+			return "Congrats, you succesfuly sold " + amount + " share(s) of " + props.symbol.toUpperCase() + "!"
+		}
+		else if(didTransactionComplete == 3){
+			return "You do not have enough liquid funds to buy any " + props.symbol.toUpperCase() + "!"
+		}
+		else if(didTransactionComplete == 2){
+			return "You do not own any " + props.symbol.toUpperCase()
+		}
+		else{
+			return "There was an error with this transaction."
+		}
+	}
+	
 	const renderDropDown = () =>{
 		return (
 			<Form onSubmit={(event) => {moveStock(event)}}>
 				<GenText>Amount of shares:
 				</GenText>
-				<NumInput type="number" min = "0" max = {getMaxAmount()} placeholder = "0" onChange={(event)=>setAmount(event.target.value)} />
+				<NumInput type="number" min = "0" max = {getMaxAmount()} placeholder = {getPlaceholder()}onChange={(event)=>setAmount(event.target.value)} />
 				<NumInput type="submit" value="Submit" />
 			</Form>
 		);
@@ -121,7 +167,7 @@ const TransactionBar = (props) =>{
 	const renderSuccessText = () =>{
 		return (
 				<TransactionCompleteContainer>
-						<GenText>Congrats, you successfully {didTransactionComplete == 1 ? "bought" : "sold"} {amount} share(s) of {props.symbol.toUpperCase()}!</GenText>
+						<GenText>{successText()}</GenText>
 				</TransactionCompleteContainer>
 			)
 	}

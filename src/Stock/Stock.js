@@ -36,7 +36,7 @@ const RightColumn = styled.div`
 
 function Stock(props) {
 
-  const symbol = props.match.params.symbol
+  const symbol = props.match.params.symbol.toUpperCase()
 
   const [stock, today, dateRange, updateDateRange, isValidTicker, isLoading, setIsLoading] = useStockData(symbol)
   const intervalClicked = useCallback((arg) => {

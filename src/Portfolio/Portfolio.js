@@ -3,7 +3,13 @@ import { checkLoginStatus, getUserStockData} from "../base";
 import "./Portfolio.css"
 import axios from "axios";
 import { formatNumbers } from '../baseUtils';
-
+import Spinner from '../components/Spinner';
+import styled from 'styled-components';
+const CenterSpinner = styled(Spinner)`
+	position: absolute;
+	top: 80vh;
+	left: 47vw;	
+`
 function Portfolio() {
 
     /* This data simulates the kind of data the server will return.
@@ -12,7 +18,7 @@ function Portfolio() {
 
 	const [accountDetails, setAccountInfo] = React.useState(["", ""]);
 	const [tableBody, setTable] = React.useState([]);
-
+	const [isLoading, setIsLoading] = React.useState(true)
 	async function updatePortfolio() {
 		const data = (await getUserStockData(await checkLoginStatus()));
 		const stocks = data.stocks;
@@ -42,17 +48,17 @@ function Portfolio() {
 
 		setAccountInfo([formatNumbers(totalValue + data.cash), formatNumbers(data.cash)]);
 		setTable(tableTemp);
+		setIsLoading(false)
 	}
 
 	React.useEffect(() => {
 		updatePortfolio();
+		setIsLoading(true)
 	}, []);
 	
-	return (
-		<div className="page">
-			<div className="blueBackground topSection">
-				<h1>My Portfolio</h1>
-			</div>
+	const getTables = () => {
+		return(
+		<>
 			<p>Account Details</p>
 			<table>
 				<thead>
@@ -80,6 +86,15 @@ function Portfolio() {
 					{tableBody}
 				</tbody>
 			</table> 
+		</>
+		)
+	}
+	return (
+		<div className="page">
+			<div className="blueBackground topSection">
+				<h1>My Portfolio</h1>
+			</div>
+			{isLoading ? <CenterSpinner></CenterSpinner> : getTables()}
 		</div>
 	)
 }
