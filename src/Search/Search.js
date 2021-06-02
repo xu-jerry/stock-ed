@@ -60,7 +60,7 @@ function Search() {
       <div className = "Search">
         <form onSubmit={handleSubmit}>
             <input type= "text" value= {searchStock} onChange = {handleChange} placeholder = "Type Stock Ticker Symbol" />
-          <input className = "niceButton submitInput" type="submit" value="Search"/>
+          <input className = "button" type="submit" value="Search"/>
         </form>
       </div>
       <br></br>
@@ -68,7 +68,7 @@ function Search() {
         <div style = {{fontWeight: "bold"}}> {searchResults.length == 0 ? " " : "Results: "} </div> 
         <ul className = "results-list" style = {{ listStyleType: "none" }}>
             {searchResults.map(item => (
-              <li  key = {item}> <button className="niceButton" onClick = {() => goToPage(item)}> {item} </button></li>
+              <li  key = {item}> <div className="button" onClick = {() => goToPage(item)}> {item} </div></li>
             ))}
         </ul>
       </div>
