@@ -137,3 +137,11 @@ code {
 ul * {
   padding: 0 !important;
 }
+
+.greenText {
+  color: green;
+}
+
+.redText {
+  color: red;
+}

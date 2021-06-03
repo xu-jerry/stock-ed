@@ -1,8 +1,8 @@
 import './Leaderboard.css';
 import { useState, useEffect } from 'react';
-import {IoReload} from 'react-icons/io5';
-import {IoIosArrowDown, IoIosArrowUp} from 'react-icons/io';
-import {getLeaderboardData, updateAllUsers} from "../base";
+import { IoReload } from 'react-icons/io5';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { getLeaderboardData, updateAllUsers } from "../base";
 import { formatNumbers } from '../baseUtils';
 
 function Leaderboard(props) {
@@ -16,12 +16,19 @@ function Leaderboard(props) {
     for (let i = 0; i < leaderBoardData.length; i++) {
       const current = leaderBoardData[i];
       let accountValueLen = current.accountValue.length;
-      const todaysChange = accountValueLen > 1 ? current.accountValue[accountValueLen - 2] - current.accountValue[accountValueLen - 1]: 0;
-
-      tempTable.push(<tr username={current.name} accountvalue={current.accountValue[accountValueLen - 1]} 
+      const todaysChange = accountValueLen > 1 ? current.accountValue[accountValueLen - 1] - current.accountValue[accountValueLen - 2] : 0;
+      const overallChange = ((current.accountValue[accountValueLen - 1] - 100000) / 100000 * 100)
+        .toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+      tempTable.push(<tr username={current.name} accountvalue={current.accountValue[accountValueLen - 1]}
         todaychange={current.todayChange} overallchange={current.overallChange} key={current.name}>
-        <th>{current.name}</th><th>{formatNumbers(current.accountValue[accountValueLen - 1])}</th><th>{formatNumbers(todaysChange)}</th><th>
-        {((current.accountValue[accountValueLen - 1] - 100000) / 100000 * 100).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}) + "%"}</th></tr>);
+        <th>{current.name}</th><th>{formatNumbers(current.accountValue[accountValueLen - 1])}</th>
+        <th className={todaysChange > 0 ? "greenText" : todaysChange < 0 ? "redText" : ""}>
+          {(todaysChange > 0 ? "+" : "") + formatNumbers(todaysChange)}
+        </th>
+        <th className={overallChange > 0 ? "greenText" : overallChange < 0 ? "redText" : ""}>
+          {(overallChange > 0 ? "+" : "") + overallChange + "%"}
+        </th></tr>);
     }
     return tempTable;
   }
@@ -61,7 +68,7 @@ function Leaderboard(props) {
   return (
     <div className="page">
       <div className="greenBackground topSection">
-      <h1>Leaderboard</h1>
+        <h1>Leaderboard</h1>
       </div>
       <p>Here are the top stats for users of StockEd.</p>
       <table className="styledTable">
@@ -69,28 +76,28 @@ function Leaderboard(props) {
           <tr>
             <th className={(activeFilter === "usernametrue" || activeFilter === "usernamefalse") ? "activeFilter" : ""}>
               Username
-              <button className="filter" onClick={() => 
+              <button className="filter" onClick={() =>
                 filterTable("username", activeFilter === "usernametrue", tableBody)}>
-                {activeFilter === "usernametrue" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
+                {activeFilter === "usernametrue" ? <IoIosArrowUp /> : <IoIosArrowDown />}</button>
             </th>
             <th className={(activeFilter === "accountvaluetrue" || activeFilter === "accountvaluefalse") ? "activeFilter" : ""}>
               Account Value
-              <button className="filter" onClick={() => 
+              <button className="filter" onClick={() =>
                 filterTable("accountvalue", activeFilter !== "accountvaluefalse", tableBody)}>
-                {activeFilter === "accountvaluefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
+                {activeFilter === "accountvaluefalse" ? <IoIosArrowUp /> : <IoIosArrowDown />}</button>
             </th>
             <th className={(activeFilter === "todaychangetrue" || activeFilter === "todaychangefalse") ? "activeFilter" : ""}>
               Today's Change in Value
-              <button className="filter" onClick={() => 
+              <button className="filter" onClick={() =>
                 filterTable("todaychange", activeFilter !== "todaychangefalse", tableBody)}>
-                {activeFilter === "todaychangefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
+                {activeFilter === "todaychangefalse" ? <IoIosArrowUp /> : <IoIosArrowDown />}</button>
             </th>
             <th className={(activeFilter === "overallchangetrue" || activeFilter === "overallchangefalse") ? "activeFilter" : ""}>
               Overall Change in Value
-              <button className="filter" onClick={() => 
+              <button className="filter" onClick={() =>
                 filterTable("overallchange", activeFilter !== "overallchangefalse", tableBody)}>
-                {activeFilter === "overallchangefalse" ? <IoIosArrowUp/> : <IoIosArrowDown/>}</button>
-              <button id="reload" onClick={() => requestLeaderBoardData().then(data => filterTable("accountvalue", true, data))}><IoReload/></button>
+                {activeFilter === "overallchangefalse" ? <IoIosArrowUp /> : <IoIosArrowDown />}</button>
+              <button id="reload" onClick={() => requestLeaderBoardData().then(data => filterTable("accountvalue", true, data))}><IoReload /></button>
             </th>
           </tr>
         </thead>

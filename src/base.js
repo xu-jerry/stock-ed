@@ -1,4 +1,4 @@
-import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection, getDoc} from "firebase/firestore"; 
+import { getDocs, query, onSnapshot, doc, setDoc, getFirestore, Timestamp, updateDoc, collection} from "firebase/firestore"; 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, signOut} from "firebase/auth";
 import axios from "axios";
@@ -128,13 +128,20 @@ export async function updateAllUsers() {
   await querySnapshot.forEach(async (document) => {
     const userData = new UserData(document.data().name, document.data().accountValue, 
       JSON.parse(document.data().stocks), document.data().cash, document.data().usersTimestamp);
-    const lastRecordedDay = userData.usersTimestamp.toDate().getUTCDate();
-    const currentDate = new Date();
+
+    // Convert to EDT first to avoid having to deal with Daylight Savings :(
+    const lastRecordedDay = userData.usersTimestamp.toDate()
+      .toLocaleString("en-US", {timeZone: "America/New_York"}).split(" ");
+    const currentDate = new Date().toLocaleString("en-US", {timeZone: "America/New_York"}).split(" ");
+    const currentEdtHour = parseInt(currentDate[1].split(":")[0]) + (currentDate[2] === "PM" ? 12 : 0);
+    const currentEdtDay = parseInt(currentDate[0].split("/")[1]);
+
     /* Update the stocks if it has not been updated that day,
-     * while making sure to do it only after the NYSE has closed
+     * while making sure to do it only when the NYSE is not open 
+     * In EDT, the NYSE is open from 9:30am - 4:00pm during weekdays
      */ 
-    console.log(document.data())
-    if (currentDate.getUTCHours() >= 17 && lastRecordedDay != currentDate.getUTCDate()) {
+    if ((!(currentEdtHour >= 9 && currentEdtHour < 16) || (currentEdtDay === 7 || currentEdtDay === 6))
+       && (currentDate[0] !== lastRecordedDay[0])) {
 
       let updatedTotal = userData.cash;
 
@@ -148,7 +155,6 @@ export async function updateAllUsers() {
       
       updateDoc(doc(db, "Users", document.id), {accountValue: userData.accountValue, usersTimestamp: userData.usersTimestamp});
     }
-    
   });
 }
 
