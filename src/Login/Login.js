@@ -54,7 +54,7 @@ const Login = (props) =>{
       </div>
       <p>{message[0]}</p>
       <form>
-        <p>Username</p>
+        <p>Email</p>
         <input className={errorMessage === "" ? "" : "invalid"} type="text" value={username} onChange={e => setUsername(e.target.value)}></input>
         <p>Password</p>
         <input className={errorMessage === "" ? "" : "invalid"} type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
